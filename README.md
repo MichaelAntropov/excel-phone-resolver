@@ -1,2 +1,2 @@
 # excel-phone-resolver
-Modifies chosen range of numbers(Ukranian format) in Excel file(*.xlsx, *.xls)
+Modifies chosen range of phone numbers(Ukranian format) in Excel file(*.xlsx, *.xls)
