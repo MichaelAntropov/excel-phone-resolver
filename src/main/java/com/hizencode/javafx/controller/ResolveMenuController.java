@@ -3,22 +3,16 @@ package com.hizencode.javafx.controller;
 import com.hizencode.javafx.data.ExcelData;
 import com.hizencode.javafx.data.ExcelFileChooser;
 import com.hizencode.javafx.main.App;
-import com.hizencode.phoneresolver.PhoneResolver;
-import com.hizencode.phoneresolver.PhoneResult;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
+import com.hizencode.javafx.service.ExcelLoadWorkbookService;
+import com.hizencode.javafx.service.ExcelProcessWorkbookService;
+import com.hizencode.javafx.service.ExcelSaveWorkbookService;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.apache.poi.ss.util.CellAddress;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.Iterator;
 import java.util.regex.Matcher;
@@ -57,31 +51,21 @@ public class ResolveMenuController {
         //call it after others as we dont want to turn off ProgressIndicator
         showLoadingIndicator(true);
 
-        //Task for loading the file
-        Task<Void> loadFile = new Task<>() {
-            @Override
-            protected Void call() throws IOException {
-                ExcelData.setWorkbook(WorkbookFactory.create(ExcelData.getFile()));
-                return null;
-            }
-        };
+        ExcelLoadWorkbookService loadWorkbookService = new ExcelLoadWorkbookService(ExcelData.getFile());
 
-        loadFile.setOnSucceeded(event -> {
-            System.out.println("Task succeeded");
+        loadWorkbookService.start();
+
+        loadWorkbookService.setOnSucceeded(event -> {
+            ExcelData.setWorkbook(loadWorkbookService.getValue());
             setSheetsInMenu(sheetMenu, ExcelData.getWorkbook());
+
             showLoadingIndicator(false);
             disableInput(false);
         });
 
-        loadFile.setOnFailed(event -> {
-            System.out.println("Task failed");
-            loadFile.getException().printStackTrace();
+        loadWorkbookService.setOnFailed(event -> {
+            loadWorkbookService.getException().printStackTrace();
         });
-
-        loadFile.setOnCancelled(event -> System.out.println("Task cancelled"));
-
-        //Start the task
-        new Thread(loadFile).start();
     }
 
     public void processFile() {
@@ -96,77 +80,41 @@ public class ResolveMenuController {
         disableInput(true);
         showProcessingIndicator(true);
 
-        Task<Void> processFile = new Task<>() {
-            @Override
-            protected Void call() {
+        ExcelProcessWorkbookService processWorkbookService =
+                new ExcelProcessWorkbookService(ExcelData.getSheet(), startRange.getText(), endRange.getText());
 
-                Workbook workbook = ExcelData.getWorkbook();
-                Sheet sheet = ExcelData.getSheet();
+        processWorkbookService.start();
 
-                CellAddress startCellAddress = new CellAddress(startRange.getText());
-                CellAddress endCellAddress = new CellAddress(endRange.getText());
+        processWorkbookService.setOnSucceeded(event -> {
+            showProcessingIndicator(false);
+            showSavingIndicator(true);
 
-                //Iterate over the phones and apply phone resolver
-                int startRow = startCellAddress.getRow();
-                int endRow = endCellAddress.getRow();
-                int column = startCellAddress.getColumn();
+            File file = ExcelFileChooser.saveExcelFile(App.getWindow());
 
-                for (int i = startRow; i <= endRow; i++) {
-                    Cell cell = sheet.getRow(i).getCell(column);
-                    if (cell != null) {
-                        Cell nextCell = sheet.getRow(i).createCell(column + 1);
-
-                        PhoneResult<String, String> result =
-                                PhoneResolver.resolve(cell.getStringCellValue());
-
-                        cell.setCellValue(result.getMainResult());
-                        nextCell.setCellValue(result.getSecondaryResult());
-                    }
-                }
-
-                //Save file after finishing
-                Platform.runLater(() -> {
-                    showProcessingIndicator(false);
-                    showSavingIndicator(true);
-
-                    File file = ExcelFileChooser.saveExcelFile(App.getWindow());
-
-                    Task<Void> saveFile = new Task<>() {
-                        @Override
-                        protected Void call() {
-                            if (file != null) {
-                                try (OutputStream outputStream = new FileOutputStream(file)) {
-                                    workbook.write(outputStream);
-                                    workbook.close();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                    System.out.println(e.getMessage());
-                                }
-                            }
-
-                            try {
-                                Files.delete(ExcelData.getFile().toPath());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                System.out.println(e.getMessage());
-                            }
-
-                            Platform.runLater(() -> {
-                                disableInput(false);
-                                showSavingIndicator(false);
-                            });
-                            return null;
-                        }
-                    };
-
-                    new Thread(saveFile).start();
-
-                });
-                return null;
+            if(file == null) {
+                return;
             }
-        };
 
-        new Thread(processFile).start();
+            ExcelSaveWorkbookService saveWorkbookService =
+                    new ExcelSaveWorkbookService(file, ExcelData.getWorkbook());
+
+            saveWorkbookService.start();
+
+            saveWorkbookService.setOnSucceeded(e -> {
+                disableInput(false);
+                showSavingIndicator(false);
+                //Clear temporary files that were created
+                try {
+                    Files.delete(ExcelData.getFile().toPath());
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            });
+
+            saveWorkbookService.setOnFailed(e -> {
+                saveWorkbookService.getException().printStackTrace();
+            });
+        });
     }
 
     private boolean checkInputs() {
@@ -206,6 +154,20 @@ public class ResolveMenuController {
         progressIndicator.setVisible(value);
     }
 
+    private static void setSheetsInMenu(MenuButton menuButton, Workbook workbook) {
+
+        Iterator<Sheet> sheetIterator = workbook.sheetIterator();
+        while (sheetIterator.hasNext()) {
+            MenuItem menuItem = new MenuItem(sheetIterator.next().getSheetName());
+            menuItem.setOnAction(actionEvent -> {
+                menuButton.setText(menuItem.getText());
+                ExcelData.setSheet(workbook.getSheet(menuItem.getText()));
+            });
+
+            menuButton.getItems().add(menuItem);
+        }
+    }
+
     private void showSavingIndicator(boolean value) {
         savingLabel.setVisible(value);
         progressIndicator.setVisible(value);
@@ -222,20 +184,4 @@ public class ResolveMenuController {
         startRange.setDisable(value);
         endRange.setDisable(value);
     }
-
-    private static void setSheetsInMenu(MenuButton menuButton, Workbook workbook) {
-
-        Iterator<Sheet> sheetIterator = workbook.sheetIterator();
-        while (sheetIterator.hasNext()) {
-            MenuItem menuItem = new MenuItem(sheetIterator.next().getSheetName());
-            menuItem.setOnAction(actionEvent -> {
-                menuButton.setText(menuItem.getText());
-                ExcelData.setSheet(workbook.getSheet(menuItem.getText()));
-            });
-
-            menuButton.getItems().add(menuItem);
-        }
-    }
-
-
 }
