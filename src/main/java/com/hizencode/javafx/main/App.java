@@ -1,5 +1,6 @@
 package com.hizencode.javafx.main;
 
+import com.hizencode.javafx.controller.AlertManager;
 import com.hizencode.javafx.data.ExcelData;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +10,6 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
-import java.nio.file.Files;
 
 /**
  * JavaFX App
@@ -28,22 +28,10 @@ public class App extends Application {
     @Override
     public void stop() {
         //Clean up if any temp files are created/close books
-        if(ExcelData.isWorkbookPresent()) {
-            try {
-                ExcelData.getWorkbook().close();
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println(e.getMessage());
-            }
-        }
-
-        if(ExcelData.isExcelFilePresent()) {
-            try {
-                Files.deleteIfExists(ExcelData.getFile().toPath());
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println(e.getMessage());
-            }
+        try {
+            ExcelData.clearData();
+        } catch (IOException exception) {
+            AlertManager.showErrorWithTrace(exception);
         }
     }
 

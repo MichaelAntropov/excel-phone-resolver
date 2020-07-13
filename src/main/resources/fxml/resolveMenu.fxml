@@ -38,7 +38,7 @@
 
           <HBox alignment="CENTER" spacing="5"
                 GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.columnSpan="4">
-              <Button fx:id="newFile" text="New File" />
+              <Button fx:id="back" text="Back" onAction="#goBack"/>
               <Button fx:id="process" text="Process" onAction="#processFile"/>
           </HBox>
 

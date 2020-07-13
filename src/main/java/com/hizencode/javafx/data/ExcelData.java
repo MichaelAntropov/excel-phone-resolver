@@ -4,6 +4,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 public final class ExcelData {
 
@@ -57,5 +59,20 @@ public final class ExcelData {
 
     public static void setOriginalFileName(String originalFileName) {
         ExcelData.originalFileName = originalFileName;
+    }
+
+    public static void clearData() throws IOException {
+        //Clean up if any temp files are created/close books
+        if(ExcelData.isWorkbookPresent()) {
+            ExcelData.getWorkbook().close();
+        }
+        if(ExcelData.isExcelFilePresent()) {
+            Files.deleteIfExists(ExcelData.getFile().toPath());
+        }
+        setFile(null);
+        setOriginalFileName(null);
+        setWorkbook(null);
+        setSheet(null);
+
     }
 }

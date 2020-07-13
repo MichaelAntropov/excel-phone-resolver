@@ -27,6 +27,10 @@ public class ExcelProcessWorkbookService extends Service<Workbook> {
         return new Task<>() {
             @Override
             protected Workbook call() {
+                if(sheet == null) {
+                    throw new NullPointerException("The sheet is missing!");
+                }
+
                 CellAddress startCellAddress = new CellAddress(startRange);
                 CellAddress endCellAddress = new CellAddress(endRange);
 
