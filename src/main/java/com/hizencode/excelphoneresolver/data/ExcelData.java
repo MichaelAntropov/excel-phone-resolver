@@ -1,4 +1,4 @@
-package com.hizencode.javafx.data;
+package com.hizencode.excelphoneresolver.data;
 
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;

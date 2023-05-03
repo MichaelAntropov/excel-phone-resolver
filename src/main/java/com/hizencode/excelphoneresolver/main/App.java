@@ -1,7 +1,7 @@
-package com.hizencode.javafx.main;
+package com.hizencode.excelphoneresolver.main;
 
-import com.hizencode.javafx.controller.AlertManager;
-import com.hizencode.javafx.data.ExcelData;
+import com.hizencode.excelphoneresolver.ui.alertmanager.AlertManager;
+import com.hizencode.excelphoneresolver.data.ExcelData;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,7 +20,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("chooseFile"), 640, 480);
+        scene = new Scene(loadFXML("start"), 640, 480);
         stage.setScene(scene);
         stage.show();
     }

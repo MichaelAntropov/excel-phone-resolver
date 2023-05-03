@@ -5,7 +5,7 @@
 
 
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.hizencode.javafx.controller.ChooseFileController">
+      fx:controller="com.hizencode.excelphoneresolver.ui.start.controller.StartController">
     <Button  text="Choose an excel file&#10;*.xlsx or *.xls" textAlignment="CENTER" alignment="CENTER"
              onAction="#chooseFile"/>
 </VBox>
