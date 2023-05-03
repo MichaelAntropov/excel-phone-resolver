@@ -203,7 +203,7 @@ public class ResolveMenuController {
         } catch (IOException exception) {
             AlertManager.showErrorWithTrace(exception);
         }
-        App.setRoot("chooseFile");
+        App.setRoot("start");
     }
 
     ///////////////////////////////////////////////////////////////////////

@@ -14,7 +14,7 @@ public class ChooseFileController {
         ExcelFileChooser.chooseExcelFile(App.getWindow());
 
         if(ExcelData.isExcelFilePresent()) {
-            App.setRoot("resolveMenu");
+            App.setRoot("resolve");
         }
     }
 }
