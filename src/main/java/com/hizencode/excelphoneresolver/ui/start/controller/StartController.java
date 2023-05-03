@@ -6,7 +6,7 @@ import com.hizencode.excelphoneresolver.main.App;
 import javafx.fxml.FXML;
 
 
-public class ChooseFileController {
+public class StartController {
 
     @FXML
     private void chooseFile() {
