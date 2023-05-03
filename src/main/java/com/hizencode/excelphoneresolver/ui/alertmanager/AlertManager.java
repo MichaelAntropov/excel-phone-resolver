@@ -1,4 +1,4 @@
-package com.hizencode.javafx.controller;
+package com.hizencode.excelphoneresolver.ui.alertmanager;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;

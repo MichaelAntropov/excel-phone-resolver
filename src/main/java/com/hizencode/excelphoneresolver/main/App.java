@@ -1,7 +1,7 @@
-package com.hizencode.javafx.main;
+package com.hizencode.excelphoneresolver.main;
 
-import com.hizencode.javafx.controller.AlertManager;
-import com.hizencode.javafx.data.ExcelData;
+import com.hizencode.excelphoneresolver.ui.alertmanager.AlertManager;
+import com.hizencode.excelphoneresolver.data.ExcelData;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

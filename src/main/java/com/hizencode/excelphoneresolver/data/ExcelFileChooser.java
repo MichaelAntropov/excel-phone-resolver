@@ -1,4 +1,4 @@
-package com.hizencode.javafx.data;
+package com.hizencode.excelphoneresolver.data;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Window;

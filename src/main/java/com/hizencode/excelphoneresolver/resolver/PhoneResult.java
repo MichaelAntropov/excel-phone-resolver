@@ -1,4 +1,4 @@
-package com.hizencode.phoneresolver;
+package com.hizencode.excelphoneresolver.resolver;
 
 public class PhoneResult<A extends String, B extends String> {
     private A mainResult;

@@ -1,4 +1,4 @@
-package com.hizencode.phoneresolver;
+package com.hizencode.excelphoneresolver.resolver;
 
 import java.util.HashSet;
 import java.util.Iterator;

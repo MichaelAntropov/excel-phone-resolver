@@ -1,8 +1,8 @@
-package com.hizencode.javafx.controller;
+package com.hizencode.excelphoneresolver.ui.start.controller;
 
-import com.hizencode.javafx.data.ExcelData;
-import com.hizencode.javafx.data.ExcelFileChooser;
-import com.hizencode.javafx.main.App;
+import com.hizencode.excelphoneresolver.data.ExcelData;
+import com.hizencode.excelphoneresolver.data.ExcelFileChooser;
+import com.hizencode.excelphoneresolver.main.App;
 import javafx.fxml.FXML;
 
 

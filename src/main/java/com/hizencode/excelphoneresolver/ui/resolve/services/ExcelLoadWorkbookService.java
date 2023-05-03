@@ -1,4 +1,4 @@
-package com.hizencode.javafx.service;
+package com.hizencode.excelphoneresolver.ui.resolve.services;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;

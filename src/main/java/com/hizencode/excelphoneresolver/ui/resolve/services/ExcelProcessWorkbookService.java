@@ -1,7 +1,7 @@
-package com.hizencode.javafx.service;
+package com.hizencode.excelphoneresolver.ui.resolve.services;
 
-import com.hizencode.phoneresolver.PhoneResolver;
-import com.hizencode.phoneresolver.PhoneResult;
+import com.hizencode.excelphoneresolver.resolver.PhoneResolver;
+import com.hizencode.excelphoneresolver.resolver.PhoneResult;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import org.apache.poi.ss.usermodel.Cell;

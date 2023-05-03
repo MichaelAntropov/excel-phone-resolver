@@ -45,7 +45,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.3</version>
                 <configuration>
-                    <mainClass>com.hizencode.javafx.main.Launcher</mainClass>
+                    <mainClass>com.hizencode.excelphoneresolver.main.Launcher</mainClass>
                 </configuration>
             </plugin>
         </plugins>
