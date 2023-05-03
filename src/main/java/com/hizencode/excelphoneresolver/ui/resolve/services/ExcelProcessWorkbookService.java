@@ -35,14 +35,14 @@ public class ExcelProcessWorkbookService extends Service<Workbook> {
                 CellAddress endCellAddress = new CellAddress(endRange);
 
                 //Iterate over the phones and apply phone resolver
-                int startRow = startCellAddress.getRow();
-                int endRow = endCellAddress.getRow();
-                int column = startCellAddress.getColumn();
+                int startRowIndex = startCellAddress.getRow();
+                int endRowIndex = endCellAddress.getRow();
+                int targetColumnIndex = startCellAddress.getColumn();
 
-                for (int i = startRow; i <= endRow; i++) {
-                    Cell cell = sheet.getRow(i).getCell(column);
+                for (int i = startRowIndex; i <= endRowIndex; i++) {
+                    Cell cell = sheet.getRow(i).getCell(targetColumnIndex);
                     if (cell != null) {
-                        Cell nextCell = sheet.getRow(i).createCell(column + 1);
+                        Cell nextCell = sheet.getRow(i).createCell(targetColumnIndex + 1);
 
                         PhoneResult result = PhoneResolver.resolve(cell.getStringCellValue());
 
