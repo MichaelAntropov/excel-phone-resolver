@@ -1,8 +1,6 @@
 package com.hizencode.excelphoneresolver.resolver;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 public class PhoneResolver {
 
@@ -59,11 +57,12 @@ public class PhoneResolver {
         Iterator<String> iterator = resultSet.iterator();
 
         String mainResult = UKRAINIAN_PHONE_CODE + iterator.next();
-        String secondaryResult = "";
+        String secondaryResult;
+        List<String> secondaryResultsList = new ArrayList<>();
 
-        while (iterator.hasNext()) {
-            secondaryResult = String.join(SPLITERATOR, secondaryResult, UKRAINIAN_PHONE_CODE + iterator.next());
-        }
+        iterator.forEachRemaining(resultInstance -> secondaryResultsList.add(UKRAINIAN_PHONE_CODE + resultInstance));
+        secondaryResult = String.join(SPLITERATOR, secondaryResultsList);
+
 
         return new PhoneResult(mainResult, secondaryResult);
     }
