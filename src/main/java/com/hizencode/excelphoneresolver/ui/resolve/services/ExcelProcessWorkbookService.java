@@ -44,11 +44,10 @@ public class ExcelProcessWorkbookService extends Service<Workbook> {
                     if (cell != null) {
                         Cell nextCell = sheet.getRow(i).createCell(column + 1);
 
-                        PhoneResult<String, String> result =
-                                PhoneResolver.resolve(cell.getStringCellValue());
+                        PhoneResult result = PhoneResolver.resolve(cell.getStringCellValue());
 
-                        cell.setCellValue(result.getMainResult());
-                        nextCell.setCellValue(result.getSecondaryResult());
+                        cell.setCellValue(result.mainResult());
+                        nextCell.setCellValue(result.secondaryResult());
                     }
                 }
 
