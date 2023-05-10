@@ -85,7 +85,8 @@ public class MainSceneController {
 
                 setChosenFileTextField(ExcelData.getFile());
                 setSheetTabs(ExcelData.getWorkbook());
-                renderSheetPreview();
+                attachOnSheetChangeListener();
+                disableProcessSettings(false);
 
                 showLoadingOverlay(false);
                 chooseFileButton.setDisable(false);
@@ -115,14 +116,14 @@ public class MainSceneController {
         }
     }
 
-    private void renderSheetPreview() {
-        tabPane.getSelectionModel().selectedItemProperty().addListener((observableValue, oldTab, newTab) -> {
-            // Null check and by newTab.getContent() != null we make sure that sheet is rendered only once
-            if (newTab == null || newTab.getContent() != null) {
+    private void attachOnSheetChangeListener() {
+        tabPane.getSelectionModel().selectedItemProperty().addListener((observableValue, oldSelectedTab, newSelectedTab) -> {
+            // Null check and by newSelectedTab.getContent() != null we make sure that sheet is rendered only once
+            if (newSelectedTab == null || newSelectedTab.getContent() != null) {
                 return;
             }
 
-            ExcelData.setSheet(ExcelData.getWorkbook().getSheet(newTab.getText()));
+            ExcelData.setSheet(ExcelData.getWorkbook().getSheet(newSelectedTab.getText()));
 
             var sheet = ExcelData.getSheet();
             int lastRowNum = sheet.getLastRowNum();
@@ -170,7 +171,7 @@ public class MainSceneController {
             for (int i = 0; i < grid.getColumnCount(); i++) {
                 spreadSheetView.getColumns().get(i).setPrefWidth(120);
             }
-            newTab.setContent(spreadSheetView);
+            newSelectedTab.setContent(spreadSheetView);
 
         });
         tabPane.getSelectionModel().clearSelection();
