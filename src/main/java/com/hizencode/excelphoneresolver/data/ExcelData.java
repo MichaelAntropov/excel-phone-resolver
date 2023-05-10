@@ -66,13 +66,10 @@ public final class ExcelData {
         if(ExcelData.isWorkbookPresent()) {
             ExcelData.getWorkbook().close();
         }
-        if(ExcelData.isExcelFilePresent()) {
-            Files.deleteIfExists(ExcelData.getFile().toPath());
-        }
+        setSheet(null);
+        setWorkbook(null);
         setFile(null);
         setOriginalFileName(null);
-        setWorkbook(null);
-        setSheet(null);
 
     }
 }
