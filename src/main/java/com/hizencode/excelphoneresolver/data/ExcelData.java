@@ -13,9 +13,9 @@ public final class ExcelData {
 
     private static File file;
 
-    public static Workbook workbook;
+    private static Workbook workbook;
 
-    public static Sheet sheet;
+    private static Sheet sheet;
 
     public static boolean isExcelFilePresent() {
         return getFile() != null;
