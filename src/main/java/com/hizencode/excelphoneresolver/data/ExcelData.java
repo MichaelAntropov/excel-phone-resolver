@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 public final class ExcelData {
 
@@ -67,6 +68,9 @@ public final class ExcelData {
             ExcelData.getWorkbook().close();
         }
         setWorkbook(null);
+        if(ExcelData.isExcelFilePresent()) {
+            Files.deleteIfExists(ExcelData.getFile().toPath());
+        }
         setFile(null);
         setOriginalFileName(null);
 
