@@ -64,8 +64,12 @@ public class MainSceneController {
 
     @FXML
     void chooseExcelFile() {
-        ExcelFileChooser.chooseExcelFile(App.getWindow());
-        if (ExcelData.isExcelFilePresent()) {
+        var chooserResultOptional = ExcelFileChooser.chooseExcelFile(App.getWindow());
+
+        if (chooserResultOptional.isPresent()) {
+            ExcelData.setOriginalFileName(chooserResultOptional.get().originalFileName());
+            ExcelData.setTempFile(chooserResultOptional.get().tmpFile());
+
             var loadExcelFile = new LoadExcelFileTask(ExcelData.getTempFile());
 
             loadExcelFile.setOnRunning(e -> {

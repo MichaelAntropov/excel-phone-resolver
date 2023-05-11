@@ -7,11 +7,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.UUID;
 
 public final class ExcelFileChooser {
 
-    public static void chooseExcelFile(Window window) {
+    public static Optional<ExcelFileChooserResult> chooseExcelFile(Window window) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose an excel file");
         fileChooser.getExtensionFilters().addAll(
@@ -22,7 +23,7 @@ public final class ExcelFileChooser {
         File sourceFile = fileChooser.showOpenDialog(window);
 
         if(sourceFile == null) {
-            return;
+            return Optional.empty();
         }
 
         Path sourcePath = sourceFile.toPath();
@@ -35,8 +36,7 @@ public final class ExcelFileChooser {
             e.printStackTrace();
         }
 
-        ExcelData.setOriginalFileName(sourceFile.getName());
-        ExcelData.setTempFile(newPath.toFile());
+        return Optional.of(new ExcelFileChooserResult(sourceFile.getName(), newPath.toFile()));
     }
 
     public static File saveExcelFile(Window window) {
