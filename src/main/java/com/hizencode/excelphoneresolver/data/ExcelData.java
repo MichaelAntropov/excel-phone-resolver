@@ -9,7 +9,7 @@ import java.nio.file.Files;
 
 public final class ExcelData {
 
-    private static String originalFileName;
+    private static File originalFile;
 
     private static File tempFile;
 
@@ -53,12 +53,12 @@ public final class ExcelData {
         ExcelData.sheet = sheet;
     }
 
-    public static String getOriginalFileName() {
-        return originalFileName;
+    public static File getOriginalFile() {
+        return originalFile;
     }
 
-    public static void setOriginalFileName(String originalFileName) {
-        ExcelData.originalFileName = originalFileName;
+    public static void setOriginalFile(File originalFile) {
+        ExcelData.originalFile = originalFile;
     }
 
     public static void clearData() throws IOException {
@@ -72,7 +72,7 @@ public final class ExcelData {
             Files.deleteIfExists(ExcelData.getTempFile().toPath());
         }
         setTempFile(null);
-        setOriginalFileName(null);
+        setOriginalFile(null);
 
     }
 }

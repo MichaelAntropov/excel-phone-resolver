@@ -18,7 +18,6 @@ import org.apache.poi.ss.formula.eval.ErrorEval;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.controlsfx.control.spreadsheet.*;
 
-import java.io.File;
 import java.io.IOException;
 
 public class MainSceneController {
@@ -74,7 +73,7 @@ public class MainSceneController {
                 AlertManager.showErrorWithTrace(e);
             }
 
-            ExcelData.setOriginalFileName(chooserResultOptional.get().originalFileName());
+            ExcelData.setOriginalFile(chooserResultOptional.get().originalFile());
             ExcelData.setTempFile(chooserResultOptional.get().tmpFile());
 
             var loadExcelFile = new LoadExcelFileTask(ExcelData.getTempFile());
@@ -89,7 +88,7 @@ public class MainSceneController {
             loadExcelFile.setOnSucceeded(e -> {
                 ExcelData.setWorkbook(loadExcelFile.getValue());
 
-                chosenFileTextField.setText(ExcelData.getOriginalFileName());
+                chosenFileTextField.setText(ExcelData.getOriginalFile().getAbsolutePath());
                 setSheetTabs(ExcelData.getWorkbook());
                 attachOnSheetChangeListener();
                 numberOfCellsChosen.setText("0");

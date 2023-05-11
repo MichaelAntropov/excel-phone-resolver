@@ -36,7 +36,7 @@ public final class ExcelFileChooser {
             e.printStackTrace();
         }
 
-        return Optional.of(new ExcelFileChooserResult(sourceFile.getName(), newPath.toFile()));
+        return Optional.of(new ExcelFileChooserResult(sourceFile, newPath.toFile()));
     }
 
     public static File saveExcelFile(Window window) {
