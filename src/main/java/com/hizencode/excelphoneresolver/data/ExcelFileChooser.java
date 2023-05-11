@@ -27,7 +27,7 @@ public final class ExcelFileChooser {
 
         Path sourcePath = sourceFile.toPath();
         Path sourceDirectory = sourcePath.getParent();
-        Path newPath = sourceDirectory.resolve(UUID.randomUUID().toString() + ".tmp");
+        Path newPath = sourceDirectory.resolve(UUID.randomUUID() + ".tmp");
 
         try {
             Files.copy(sourcePath, newPath);
@@ -36,7 +36,7 @@ public final class ExcelFileChooser {
         }
 
         ExcelData.setOriginalFileName(sourceFile.getName());
-        ExcelData.setFile(newPath.toFile());
+        ExcelData.setTempFile(newPath.toFile());
     }
 
     public static File saveExcelFile(Window window) {

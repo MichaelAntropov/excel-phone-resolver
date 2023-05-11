@@ -11,14 +11,14 @@ public final class ExcelData {
 
     private static String originalFileName;
 
-    private static File file;
+    private static File tempFile;
 
     private static Workbook workbook;
 
     private static Sheet sheet;
 
     public static boolean isExcelFilePresent() {
-        return getFile() != null;
+        return getTempFile() != null;
     }
 
     public static boolean isWorkbookPresent() {
@@ -29,12 +29,12 @@ public final class ExcelData {
         return getSheet() != null;
     }
 
-    public static void setFile(File file) {
-        ExcelData.file = file;
+    public static void setTempFile(File tempFile) {
+        ExcelData.tempFile = tempFile;
     }
 
-    public static File getFile() {
-        return file;
+    public static File getTempFile() {
+        return tempFile;
     }
 
     public static Workbook getWorkbook() {
@@ -69,9 +69,9 @@ public final class ExcelData {
         }
         setWorkbook(null);
         if(ExcelData.isExcelFilePresent()) {
-            Files.deleteIfExists(ExcelData.getFile().toPath());
+            Files.deleteIfExists(ExcelData.getTempFile().toPath());
         }
-        setFile(null);
+        setTempFile(null);
         setOriginalFileName(null);
 
     }

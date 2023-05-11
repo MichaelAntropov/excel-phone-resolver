@@ -66,7 +66,7 @@ public class MainSceneController {
     void chooseExcelFile() {
         ExcelFileChooser.chooseExcelFile(App.getWindow());
         if (ExcelData.isExcelFilePresent()) {
-            var loadExcelFile = new LoadExcelFileTask(ExcelData.getFile());
+            var loadExcelFile = new LoadExcelFileTask(ExcelData.getTempFile());
 
             loadExcelFile.setOnRunning(e -> {
                 showNoDataOverlay(false);
@@ -77,7 +77,7 @@ public class MainSceneController {
             loadExcelFile.setOnSucceeded(e -> {
                 ExcelData.setWorkbook(loadExcelFile.getValue());
 
-                setChosenFileTextField(ExcelData.getFile());
+                chosenFileTextField.setText(ExcelData.getOriginalFileName());
                 setSheetTabs(ExcelData.getWorkbook());
                 attachOnSheetChangeListener();
                 numberOfCellsChosen.setText("0");
@@ -167,10 +167,6 @@ public class MainSceneController {
         showProcessingOverlay(false);
         showNoDataOverlay(true);
         chooseFileButton.setDisable(false);
-    }
-
-    private void setChosenFileTextField(File file) {
-        chosenFileTextField.setText(file.getAbsolutePath());
     }
 
     private void setSheetTabs(Workbook workbook) {
