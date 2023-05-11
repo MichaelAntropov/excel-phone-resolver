@@ -67,6 +67,13 @@ public class MainSceneController {
         var chooserResultOptional = ExcelFileChooser.chooseExcelFile(App.getWindow());
 
         if (chooserResultOptional.isPresent()) {
+            clearMainScene();
+            try {
+                ExcelData.clearData();
+            } catch (IOException e) {
+                AlertManager.showErrorWithTrace(e);
+            }
+
             ExcelData.setOriginalFileName(chooserResultOptional.get().originalFileName());
             ExcelData.setTempFile(chooserResultOptional.get().tmpFile());
 
@@ -76,6 +83,7 @@ public class MainSceneController {
                 showNoDataOverlay(false);
                 showLoadingOverlay(true);
                 chooseFileButton.setDisable(true);
+                processButton.setDisable(true);
             });
 
             loadExcelFile.setOnSucceeded(e -> {
