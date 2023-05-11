@@ -5,7 +5,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
 public final class ExcelData {
 
@@ -63,10 +62,10 @@ public final class ExcelData {
 
     public static void clearData() throws IOException {
         //Clean up if any temp files are created/close books
+        setSheet(null);
         if(ExcelData.isWorkbookPresent()) {
             ExcelData.getWorkbook().close();
         }
-        setSheet(null);
         setWorkbook(null);
         setFile(null);
         setOriginalFileName(null);
