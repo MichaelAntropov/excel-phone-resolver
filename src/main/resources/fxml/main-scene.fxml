@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0"
+            prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.hizencode.excelphoneresolver.ui.mainscene.controller.MainSceneController">
+    <top>
+        <AnchorPane prefWidth="800.0" BorderPane.alignment="CENTER">
+            <children>
+                <HBox alignment="CENTER" layoutX="20.0" layoutY="14.0" spacing="15.0" AnchorPane.leftAnchor="20.0"
+                      AnchorPane.rightAnchor="20.0">
+                    <children>
+                        <Label text="Excel file:">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Label>
+                        <TextField fx:id="chosenFileTextField" disable="true" editable="false" HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="chooseFileButton" mnemonicParsing="false" onAction="#chooseExcelFile"
+                                text="Choose file..."/>
+                    </children>
+                </HBox>
+                <Separator layoutY="50.0" prefWidth="200.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0"/>
+                <HBox layoutX="157.0" layoutY="52.0" prefHeight="50.0" prefWidth="200.0" spacing="15.0"
+                      AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+                    <children>
+                        <GridPane hgap="5.0">
+                            <columnConstraints>
+                                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="75.0"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            </rowConstraints>
+                            <children>
+                                <Label text="Number of cells chosen:">
+                                    <GridPane.margin>
+                                        <Insets/>
+                                    </GridPane.margin>
+                                </Label>
+                                <Label fx:id="numberOfCellsChosen" text="100" GridPane.columnIndex="1"/>
+                            </children>
+                        </GridPane>
+                    </children>
+                </HBox>
+            </children>
+            <opaqueInsets>
+                <Insets bottom="15.0"/>
+            </opaqueInsets>
+        </AnchorPane>
+    </top>
+    <left>
+        <Pane prefWidth="20.0" BorderPane.alignment="CENTER"/>
+    </left>
+    <right>
+        <Pane prefWidth="20.0" BorderPane.alignment="CENTER"/>
+    </right>
+    <bottom>
+        <AnchorPane prefHeight="50.0" BorderPane.alignment="CENTER">
+            <children>
+                <HBox layoutY="13.0" spacing="10.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="0.0">
+                    <children>
+                        <Button fx:id="settingsButton" mnemonicParsing="false" prefHeight="20.0" prefWidth="70.0"
+                                text="Settings">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Button>
+                        <Button fx:id="helpButton" mnemonicParsing="false" prefHeight="20.0" prefWidth="70.0"
+                                text="Help">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Button>
+                    </children>
+                    <padding>
+                        <Insets left="20.0"/>
+                    </padding>
+                </HBox>
+                <HBox layoutX="748.0" layoutY="13.0" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="0.0">
+                    <children>
+                        <Button fx:id="processButton" mnemonicParsing="false" onAction="#startProcessing"
+                                prefHeight="20.0" prefWidth="70.0" text="Process">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Button>
+                    </children>
+                    <padding>
+                        <Insets right="20.0"/>
+                    </padding>
+                </HBox>
+            </children>
+        </AnchorPane>
+    </bottom>
+    <center>
+        <StackPane>
+            <children>
+                <TabPane fx:id="tabPane" side="BOTTOM" tabClosingPolicy="UNAVAILABLE"/>
+                <HBox fx:id="loadingOverlay" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0"
+                      style="-fx-background-color: rgba(225,225,225,0.7);" visible="false">
+                    <children>
+                        <ProgressIndicator/>
+                        <Label text="Loading...">
+                            <font>
+                                <Font size="18.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+                <HBox fx:id="noDataOverlay" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0"
+                      prefWidth="200.0" spacing="15.0" style="-fx-background-color: rgba(225,225,225,0.7);"
+                      visible="false">
+                    <children>
+                        <Label text="Plase choose excel file to continue">
+                            <font>
+                                <Font size="18.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+                <HBox fx:id="processingOverlay" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0"
+                      prefWidth="200.0" spacing="15.0" style="-fx-background-color: rgba(225,225,225,0.7);"
+                      visible="false">
+                    <children>
+                        <ProgressIndicator/>
+                        <Label text="Processing...">
+                            <font>
+                                <Font size="18.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+            </children>
+        </StackPane>
+    </center>
+</BorderPane>

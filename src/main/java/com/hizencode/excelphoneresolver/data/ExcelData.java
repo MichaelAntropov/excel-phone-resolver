@@ -9,16 +9,16 @@ import java.nio.file.Files;
 
 public final class ExcelData {
 
-    private static String originalFileName;
+    private static File originalFile;
 
-    private static File file;
+    private static File tempFile;
 
-    public static Workbook workbook;
+    private static Workbook workbook;
 
-    public static Sheet sheet;
+    private static Sheet sheet;
 
     public static boolean isExcelFilePresent() {
-        return getFile() != null;
+        return getTempFile() != null;
     }
 
     public static boolean isWorkbookPresent() {
@@ -29,12 +29,12 @@ public final class ExcelData {
         return getSheet() != null;
     }
 
-    public static void setFile(File file) {
-        ExcelData.file = file;
+    public static void setTempFile(File tempFile) {
+        ExcelData.tempFile = tempFile;
     }
 
-    public static File getFile() {
-        return file;
+    public static File getTempFile() {
+        return tempFile;
     }
 
     public static Workbook getWorkbook() {
@@ -53,26 +53,26 @@ public final class ExcelData {
         ExcelData.sheet = sheet;
     }
 
-    public static String getOriginalFileName() {
-        return originalFileName;
+    public static File getOriginalFile() {
+        return originalFile;
     }
 
-    public static void setOriginalFileName(String originalFileName) {
-        ExcelData.originalFileName = originalFileName;
+    public static void setOriginalFile(File originalFile) {
+        ExcelData.originalFile = originalFile;
     }
 
     public static void clearData() throws IOException {
         //Clean up if any temp files are created/close books
+        setSheet(null);
         if(ExcelData.isWorkbookPresent()) {
             ExcelData.getWorkbook().close();
         }
-        if(ExcelData.isExcelFilePresent()) {
-            Files.deleteIfExists(ExcelData.getFile().toPath());
-        }
-        setFile(null);
-        setOriginalFileName(null);
         setWorkbook(null);
-        setSheet(null);
+        if(ExcelData.isExcelFilePresent()) {
+            Files.deleteIfExists(ExcelData.getTempFile().toPath());
+        }
+        setTempFile(null);
+        setOriginalFile(null);
 
     }
 }
