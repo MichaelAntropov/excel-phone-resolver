@@ -1,6 +1,7 @@
-package com.hizencode.javafx.main;
+package com.hizencode.excelphoneresolver.main;
 
-import com.hizencode.javafx.data.ExcelData;
+import com.hizencode.excelphoneresolver.ui.alertmanager.AlertManager;
+import com.hizencode.excelphoneresolver.data.ExcelData;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,7 +10,6 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
-import java.nio.file.Files;
 
 /**
  * JavaFX App
@@ -20,7 +20,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("chooseFile"), 640, 480);
+        scene = new Scene(loadFXML("main-scene"));
         stage.setScene(scene);
         stage.show();
     }
@@ -28,22 +28,10 @@ public class App extends Application {
     @Override
     public void stop() {
         //Clean up if any temp files are created/close books
-        if(ExcelData.isWorkbookPresent()) {
-            try {
-                ExcelData.getWorkbook().close();
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println(e.getMessage());
-            }
-        }
-
-        if(ExcelData.isExcelFilePresent()) {
-            try {
-                Files.deleteIfExists(ExcelData.getFile().toPath());
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println(e.getMessage());
-            }
+        try {
+            ExcelData.clearData();
+        } catch (IOException exception) {
+            AlertManager.showErrorWithTrace(exception);
         }
     }
 

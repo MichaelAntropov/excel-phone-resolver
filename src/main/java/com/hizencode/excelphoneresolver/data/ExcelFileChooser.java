@@ -1,4 +1,4 @@
-package com.hizencode.javafx.data;
+package com.hizencode.excelphoneresolver.data;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
@@ -7,11 +7,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.UUID;
 
 public final class ExcelFileChooser {
 
-    public static void chooseExcelFile(Window window) {
+    public static Optional<ExcelFileChooserResult> chooseExcelFile(Window window) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose an excel file");
         fileChooser.getExtensionFilters().addAll(
@@ -22,12 +23,12 @@ public final class ExcelFileChooser {
         File sourceFile = fileChooser.showOpenDialog(window);
 
         if(sourceFile == null) {
-            return;
+            return Optional.empty();
         }
 
         Path sourcePath = sourceFile.toPath();
         Path sourceDirectory = sourcePath.getParent();
-        Path newPath = sourceDirectory.resolve(UUID.randomUUID().toString() + ".tmp");
+        Path newPath = sourceDirectory.resolve(UUID.randomUUID() + ".tmp");
 
         try {
             Files.copy(sourcePath, newPath);
@@ -35,8 +36,7 @@ public final class ExcelFileChooser {
             e.printStackTrace();
         }
 
-        ExcelData.setOriginalFileName(sourceFile.getName());
-        ExcelData.setFile(newPath.toFile());
+        return Optional.of(new ExcelFileChooserResult(sourceFile, newPath.toFile()));
     }
 
     public static File saveExcelFile(Window window) {

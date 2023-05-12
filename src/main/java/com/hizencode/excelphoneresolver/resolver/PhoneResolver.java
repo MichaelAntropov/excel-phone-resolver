@@ -1,8 +1,6 @@
-package com.hizencode.phoneresolver;
+package com.hizencode.excelphoneresolver.resolver;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 public class PhoneResolver {
 
@@ -14,16 +12,14 @@ public class PhoneResolver {
 
     public static final String SPLITERATOR = ";";
 
-    public static PhoneResult<String, String> resolve(String phoneString) {
-
-        PhoneResult<String, String> result = new PhoneResult<>("", "");
+    public static PhoneResult resolve(String phoneString) {
 
         //Standard entry check
         if(phoneString == null || phoneString.isBlank() || phoneString.isEmpty()) {
-            return result;
+            return new PhoneResult("", "");
         }
 
-        //Deleting aa chars except digits and ";"]
+        //Deleting all chars except digits and ";"
         phoneString =
                 phoneString.replaceAll(ALL_CHARS_EXCEPT_SEMICOLON_REGEX, "");
 
@@ -33,7 +29,7 @@ public class PhoneResolver {
         //Return if an array is nothing
         // eg. ;gre;ert;ret; -> Empty array, after removing non digit chars
         if(phoneStringArr.length == 0) {
-            return result;
+            return new PhoneResult("", "");
         }
 
         //Filtering those which are >= 9 getting last 9 chars and check an operator
@@ -53,27 +49,21 @@ public class PhoneResolver {
         }
 
         if(resultSet.isEmpty()) {
-            return result;
+            return new PhoneResult("", "");
         }
 
-        //Now we iterate through set and first element we add in mainResult,
+        // Now we iterate through set and first element we add in mainResult,
         // others in secondaryResult
         Iterator<String> iterator = resultSet.iterator();
 
+        String mainResult = UKRAINIAN_PHONE_CODE + iterator.next();
+        String secondaryResult;
+        List<String> secondaryResultsList = new ArrayList<>();
 
-        result.setMainResult(UKRAINIAN_PHONE_CODE + iterator.next());
+        iterator.forEachRemaining(resultInstance -> secondaryResultsList.add(UKRAINIAN_PHONE_CODE + resultInstance));
+        secondaryResult = String.join(SPLITERATOR, secondaryResultsList);
 
-        iterator.forEachRemaining(phone ->
-                result.setSecondaryResult(result.getSecondaryResult() + UKRAINIAN_PHONE_CODE + phone + SPLITERATOR));
 
-        //Useful method in String to remove las char? Nah..
-        // Dont know such things...Don't wanna use external libs tho
-        if(result.getSecondaryResult().length() >= 1) {
-            result.setSecondaryResult(
-                    result.getSecondaryResult()
-                            .substring(0, result.getSecondaryResult().length() - 1));
-        }
-
-        return result;
+        return new PhoneResult(mainResult, secondaryResult);
     }
 }
