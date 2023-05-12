@@ -6,12 +6,13 @@ rem run properly. The java version we want to use, the location of the java
 rem binaries (java home), and the project version as defined inside the pom.xml
 rem file, e.g. 1.0-SNAPSHOT.
 rem
+rem PROJECT_NAME: name used in pom.xml, e.g. excel-phone-resolver
 rem PROJECT_VERSION: version used in pom.xml, e.g. 1.0-SNAPSHOT
 rem APP_VERSION: the application version, e.g. 1.0.0, shown in "about" dialog
 rem JAVA_VERSION: version used in pom.xml, e.g. 17
 
 set JAVA_VERSION=%JAVA_VERSION%
-set MAIN_JAR=ExcelPhoneResolver-%PROJECT_VERSION%.jar
+set MAIN_JAR=%PROJECT_NAME%-%PROJECT_VERSION%.jar
 
 rem Set desired installer type: "app-image", "msi" or "exe".
 set INSTALLER_TYPE=msi
@@ -62,7 +63,7 @@ rem e.g., --include-locales=en,de.
 rem
 rem Don't forget the leading ','!
 
-set manual_modules=
+set manual_modules=,jdk.localedata
 echo Manual modules: %manual_modules%
 
 rem ------ RUNTIME IMAGE ------------------------------------------------------
@@ -91,7 +92,7 @@ call "%JAVA_HOME%\bin\jpackage" ^
   --type %INSTALLER_TYPE% ^
   --dest target/installer ^
   --input target/installer/input/libs ^
-  --name ExcelPhoneResolver ^
+  --name %APP_NAME% ^
   --main-class com.hizencode.excelphoneresolver.main.Launcher ^
   --main-jar %MAIN_JAR% ^
   --runtime-image target/java-runtime ^

@@ -1,4 +1,4 @@
-module ExcelPhoneResolver {
+module excelphoneresolver {
     requires javafx.fxml;
     requires javafx.controls;
     requires org.apache.poi.poi;
