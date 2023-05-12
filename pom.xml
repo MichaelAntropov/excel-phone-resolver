@@ -64,7 +64,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>ExcelPhoneResolver/com.hizencode.excelphoneresolver.main.Launcher</mainClass>
+                    <mainClass>excelphoneresolver/com.hizencode.excelphoneresolver.main.Launcher</mainClass>
                     <options>
                         <option>--add-exports</option>
                         <option>javafx.base/com.sun.javafx.event=org.controlsfx.controls</option>
