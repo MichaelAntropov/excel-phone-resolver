@@ -39,9 +39,6 @@ public class MainSceneController {
     private Button processButton;
 
     @FXML
-    private Button settingsButton;
-
-    @FXML
     private TabPane tabPane;
 
     @FXML
