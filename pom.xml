@@ -137,7 +137,7 @@
                                     ${client.version}
                                 </APP_VERSION>
                                 <PROJECT_NAME>
-                                    ${artifactId}
+                                    ${project.artifactId}
                                 </PROJECT_NAME>
                                 <PROJECT_VERSION>
                                     ${project.version}
