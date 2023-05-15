@@ -45,6 +45,9 @@ public class MainSceneController {
     private TabPane tabPane;
 
     @FXML
+    private HBox backgroundOverlay;
+
+    @FXML
     private HBox loadingOverlay;
 
     @FXML
@@ -288,10 +291,12 @@ public class MainSceneController {
     }
 
     private void showNoDataOverlay(boolean state) {
+        backgroundOverlay.setVisible(state);
         noDataOverlay.setVisible(state);
     }
 
     private void showProcessingOverlay(boolean state) {
+        backgroundOverlay.setVisible(state);
         processingOverlay.setVisible(state);
         if (state) {
             tabPane.setEffect(boxBlurEffect);
@@ -301,6 +306,7 @@ public class MainSceneController {
     }
 
     private void showLoadingOverlay(boolean state) {
+        backgroundOverlay.setVisible(state);
         loadingOverlay.setVisible(state);
         if (state) {
             tabPane.setEffect(boxBlurEffect);
