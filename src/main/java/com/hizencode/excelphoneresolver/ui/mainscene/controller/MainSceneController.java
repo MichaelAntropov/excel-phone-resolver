@@ -18,8 +18,11 @@ import javafx.scene.layout.HBox;
 import org.apache.poi.ss.formula.eval.ErrorEval;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.controlsfx.control.spreadsheet.*;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainSceneController {
 
@@ -31,6 +34,12 @@ public class MainSceneController {
 
     @FXML
     private Label numberOfCellsChosen;
+
+    @FXML
+    private MenuButton languageMenuButton;
+
+    @FXML
+    private MenuButton themeMenuButton;
 
     @FXML
     private Button helpButton;
@@ -55,11 +64,16 @@ public class MainSceneController {
 
     private final BoxBlur boxBlurEffect = new BoxBlur();
 
+    private final FontIcon checkIcon = new FontIcon("mdal-check");
+
     @FXML
     private void initialize() {
         showNoDataOverlay(true);
         numberOfCellsChosen.setText("-");
         processButton.setDisable(true);
+
+        setLanguages();
+        setThemes();
     }
 
     @FXML
@@ -149,16 +163,6 @@ public class MainSceneController {
         thread.start();
     }
 
-    @FXML
-    private void onLightThemeChosen() {
-        App.setTheme(Theme.LIGHT);
-    }
-
-    @FXML
-    private void onDarkThemeChosen() {
-        App.setTheme(Theme.DARK);
-    }
-
     private void saveExcelFile() {
         var file = ExcelFileChooser.saveExcelFile(App.getWindow());
         var saveExcelFile = new SaveExcelFileTask(ExcelData.getWorkbook(), file);
@@ -179,6 +183,37 @@ public class MainSceneController {
         var thread = new Thread(saveExcelFile);
         thread.setDaemon(true);
         thread.start();
+    }
+
+    private void setLanguages() {
+
+    }
+
+    private void setThemes() {
+        var themes = List.of(Theme.LIGHT, Theme.DARK);
+        var menuItems = new ArrayList<MenuItem>();
+
+        for (var theme : themes) {
+            var menuItem = new MenuItem();
+            menuItem.setUserData(theme);
+            menuItem.setText(theme.getName());
+            if (theme.equals(Theme.DEFAULT_THEME)) {
+                menuItem.setGraphic(checkIcon);
+            }
+
+            menuItem.setOnAction(actionEvent -> {
+                for (var i : themeMenuButton.getItems()) {
+                    i.setGraphic(null);
+                }
+                var item = (MenuItem)actionEvent.getSource();
+                item.setGraphic(checkIcon);
+                App.setTheme((Theme)item.getUserData());
+            });
+
+            menuItems.add(menuItem);
+        }
+
+        themeMenuButton.getItems().addAll(menuItems);
     }
 
     private void clearMainScene() {

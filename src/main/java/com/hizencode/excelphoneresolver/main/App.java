@@ -21,7 +21,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        setTheme(Theme.LIGHT);
+        setTheme(Theme.DEFAULT_THEME);
         scene = new Scene(loadFXML("main-scene"));
         stage.setScene(scene);
         stage.show();
