@@ -2,6 +2,7 @@ package com.hizencode.excelphoneresolver.main;
 
 import com.hizencode.excelphoneresolver.ui.alertmanager.AlertManager;
 import com.hizencode.excelphoneresolver.data.ExcelData;
+import com.hizencode.excelphoneresolver.ui.theme.Theme;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,6 +21,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        setTheme(Theme.LIGHT);
         scene = new Scene(loadFXML("main-scene"));
         stage.setScene(scene);
         stage.show();
@@ -53,6 +55,15 @@ public class App extends Application {
 
     public static Window getWindow() {
         return scene.getWindow();
+    }
+
+    public static void setTheme(Theme theme) {
+        var cssUrl = App.class.getResource(theme.getCssPath());
+        if (cssUrl != null) {
+            Application.setUserAgentStylesheet(cssUrl.toExternalForm());
+        } else {
+            AlertManager.showErrorWithTrace(new NullPointerException("Can not find resource: " + theme.getCssPath()));
+        }
     }
 
     public static void main(String[] args) {

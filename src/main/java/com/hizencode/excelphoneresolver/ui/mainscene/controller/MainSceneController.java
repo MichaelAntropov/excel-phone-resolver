@@ -7,6 +7,7 @@ import com.hizencode.excelphoneresolver.ui.alertmanager.AlertManager;
 import com.hizencode.excelphoneresolver.ui.mainscene.tasks.LoadExcelFileTask;
 import com.hizencode.excelphoneresolver.ui.mainscene.tasks.ProcessSelectedCellsTask;
 import com.hizencode.excelphoneresolver.ui.mainscene.tasks.SaveExcelFileTask;
+import com.hizencode.excelphoneresolver.ui.theme.Theme;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -62,7 +63,7 @@ public class MainSceneController {
     }
 
     @FXML
-    void chooseExcelFile() {
+    private void chooseExcelFile() {
         var chooserResultOptional = ExcelFileChooser.chooseExcelFile(App.getWindow());
 
         if (chooserResultOptional.isPresent()) {
@@ -109,7 +110,7 @@ public class MainSceneController {
     }
 
     @FXML
-    void startProcessing() {
+    private void startProcessing() {
         var currentView = (SpreadsheetView) tabPane.getSelectionModel().getSelectedItem().getContent();
 
         if (currentView == null) {
@@ -146,6 +147,16 @@ public class MainSceneController {
         var thread = new Thread(processSelectedCells);
         thread.setDaemon(true);
         thread.start();
+    }
+
+    @FXML
+    private void onLightThemeChosen() {
+        App.setTheme(Theme.LIGHT);
+    }
+
+    @FXML
+    private void onDarkThemeChosen() {
+        App.setTheme(Theme.DARK);
     }
 
     private void saveExcelFile() {
@@ -251,7 +262,16 @@ public class MainSceneController {
         }
         grid.setRows(rows);
 
-        var spreadSheetView = new SpreadsheetView(grid);
+        var spreadSheetView = new SpreadsheetView(grid) {
+            @Override
+            public String getUserAgentStylesheet() {
+                var resource = MainSceneController.class.getResource("/css/nord-spreadsheet.css");
+                if (resource != null) {
+                    return resource.toExternalForm();
+                }
+                return super.getUserAgentStylesheet();
+            }
+        };
         spreadSheetView.setFixingRowsAllowed(false);
         spreadSheetView.setFixingColumnsAllowed(false);
         for (int i = 0; i < grid.getColumnCount(); i++) {
