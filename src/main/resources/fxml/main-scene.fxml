@@ -3,6 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TabPane?>
@@ -15,7 +17,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0"
             prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
@@ -26,11 +27,7 @@
                 <HBox alignment="CENTER" layoutX="20.0" layoutY="14.0" spacing="15.0" AnchorPane.leftAnchor="20.0"
                       AnchorPane.rightAnchor="20.0">
                     <children>
-                        <Label text="Excel file:">
-                            <font>
-                                <Font size="14.0"/>
-                            </font>
-                        </Label>
+                        <Label styleClass="title-4" text="Excel file:"/>
                         <TextField fx:id="chosenFileTextField" disable="true" editable="false" HBox.hgrow="ALWAYS"/>
                         <Button fx:id="chooseFileButton" mnemonicParsing="false" onAction="#chooseExcelFile"
                                 text="Choose file..."/>
@@ -49,12 +46,13 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                             </rowConstraints>
                             <children>
-                                <Label text="Number of cells chosen:">
+                                <Label styleClass="text-normal" text="Number of cells chosen:">
                                     <GridPane.margin>
                                         <Insets/>
                                     </GridPane.margin>
                                 </Label>
-                                <Label fx:id="numberOfCellsChosen" text="100" GridPane.columnIndex="1"/>
+                                <Label fx:id="numberOfCellsChosen" styleClass="text-normal" text="100"
+                                       GridPane.columnIndex="1"/>
                             </children>
                         </GridPane>
                     </children>
@@ -72,38 +70,31 @@
         <Pane prefWidth="20.0" BorderPane.alignment="CENTER"/>
     </right>
     <bottom>
-        <AnchorPane prefHeight="50.0" BorderPane.alignment="CENTER">
+        <AnchorPane BorderPane.alignment="CENTER">
             <children>
-                <HBox layoutY="13.0" spacing="10.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="0.0">
+                <HBox alignment="CENTER_LEFT" layoutY="13.0" spacing="10.0" AnchorPane.leftAnchor="0.0">
                     <children>
-                        <Button fx:id="settingsButton" mnemonicParsing="false" prefHeight="20.0" prefWidth="70.0"
-                                text="Settings">
-                            <font>
-                                <Font size="14.0"/>
-                            </font>
-                        </Button>
-                        <Button fx:id="helpButton" mnemonicParsing="false" prefHeight="20.0" prefWidth="70.0"
-                                text="Help">
-                            <font>
-                                <Font size="14.0"/>
-                            </font>
-                        </Button>
+                        <Button fx:id="settingsButton" mnemonicParsing="false" style="-fx-pref-width: 90;"
+                                text="Settings"/>
+                        <Button fx:id="helpButton" mnemonicParsing="false" style="-fx-pref-width: 90;" text="Help"/>
+                        <MenuButton mnemonicParsing="false" text="Theme">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#onLightThemeChosen" text="Light"/>
+                                <MenuItem mnemonicParsing="false" onAction="#onDarkThemeChosen" text="Dark"/>
+                            </items>
+                        </MenuButton>
                     </children>
                     <padding>
-                        <Insets left="20.0"/>
+                        <Insets bottom="10.0" left="20.0"/>
                     </padding>
                 </HBox>
-                <HBox layoutX="748.0" layoutY="13.0" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="0.0">
+                <HBox layoutX="748.0" layoutY="13.0" AnchorPane.rightAnchor="0.0">
                     <children>
                         <Button fx:id="processButton" mnemonicParsing="false" onAction="#startProcessing"
-                                prefHeight="20.0" prefWidth="70.0" text="Process">
-                            <font>
-                                <Font size="14.0"/>
-                            </font>
-                        </Button>
+                                style="-fx-pref-width: 90;" styleClass="accent" text="Process"/>
                     </children>
                     <padding>
-                        <Insets right="20.0"/>
+                        <Insets bottom="10.0" right="20.0"/>
                     </padding>
                 </HBox>
             </children>
@@ -117,22 +108,14 @@
                       style="-fx-background-color: rgba(225,225,225,0.7);" visible="false">
                     <children>
                         <ProgressIndicator/>
-                        <Label text="Loading...">
-                            <font>
-                                <Font size="18.0"/>
-                            </font>
-                        </Label>
+                        <Label text="Loading..."/>
                     </children>
                 </HBox>
                 <HBox fx:id="noDataOverlay" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0"
                       prefWidth="200.0" spacing="15.0" style="-fx-background-color: rgba(225,225,225,0.7);"
                       visible="false">
                     <children>
-                        <Label text="Plase choose excel file to continue">
-                            <font>
-                                <Font size="18.0"/>
-                            </font>
-                        </Label>
+                        <Label text="Please choose excel file to continue"/>
                     </children>
                 </HBox>
                 <HBox fx:id="processingOverlay" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0"
@@ -140,11 +123,7 @@
                       visible="false">
                     <children>
                         <ProgressIndicator/>
-                        <Label text="Processing...">
-                            <font>
-                                <Font size="18.0"/>
-                            </font>
-                        </Label>
+                        <Label text="Processing..."/>
                     </children>
                 </HBox>
             </children>
