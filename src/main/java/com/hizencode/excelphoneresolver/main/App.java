@@ -1,5 +1,7 @@
 package com.hizencode.excelphoneresolver.main;
 
+import com.hizencode.excelphoneresolver.i18n.I18NService;
+import com.hizencode.excelphoneresolver.i18n.Language;
 import com.hizencode.excelphoneresolver.ui.alertmanager.AlertManager;
 import com.hizencode.excelphoneresolver.data.ExcelData;
 import com.hizencode.excelphoneresolver.ui.theme.Theme;
@@ -22,6 +24,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         setTheme(Theme.DEFAULT_THEME);
+        I18NService.getCurrentLanguageProperty().set(Language.DEFAULT_LANGUAGE);
         scene = new Scene(loadFXML("main-scene"));
         stage.setScene(scene);
         stage.show();
@@ -48,7 +51,9 @@ public class App extends Application {
 
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader =
-                new FXMLLoader(App.class.getResource("/fxml/" + fxml + ".fxml"));
+                new FXMLLoader(App.class.getResource("/fxml/" + fxml + ".fxml"),
+                        I18NService.getCurrentResourceBundle()
+                );
 
         return fxmlLoader.load();
     }

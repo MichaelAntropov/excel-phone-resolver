@@ -2,6 +2,9 @@ package com.hizencode.excelphoneresolver.ui.mainscene.controller;
 
 import com.hizencode.excelphoneresolver.data.ExcelData;
 import com.hizencode.excelphoneresolver.data.ExcelFileChooser;
+import com.hizencode.excelphoneresolver.i18n.I18N;
+import com.hizencode.excelphoneresolver.i18n.I18NService;
+import com.hizencode.excelphoneresolver.i18n.Language;
 import com.hizencode.excelphoneresolver.main.App;
 import com.hizencode.excelphoneresolver.ui.alertmanager.AlertManager;
 import com.hizencode.excelphoneresolver.ui.mainscene.tasks.LoadExcelFileTask;
@@ -24,7 +27,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainSceneController {
+public class MainSceneController implements I18N {
+
+    @FXML
+    private HBox backgroundOverlay;
 
     @FXML
     private Button chooseFileButton;
@@ -33,38 +39,48 @@ public class MainSceneController {
     private TextField chosenFileTextField;
 
     @FXML
-    private Label numberOfCellsChosen;
-
-    @FXML
-    private MenuButton languageMenuButton;
-
-    @FXML
-    private MenuButton themeMenuButton;
+    private Label excelFileLabel;
 
     @FXML
     private Button helpButton;
 
     @FXML
-    private Button processButton;
-
-    @FXML
-    private TabPane tabPane;
-
-    @FXML
-    private HBox backgroundOverlay;
+    private MenuButton languageMenuButton;
 
     @FXML
     private HBox loadingOverlay;
 
     @FXML
+    private Label loadingOverlayLabel;
+
+    @FXML
     private HBox noDataOverlay;
+
+    @FXML
+    private Label noDataOverlayLabel;
+
+    @FXML
+    private Label numberOfCellsChosen;
+
+    @FXML
+    private Label numberOfCellsChosenLabel;
+
+    @FXML
+    private Button processButton;
 
     @FXML
     private HBox processingOverlay;
 
-    private final BoxBlur boxBlurEffect = new BoxBlur();
+    @FXML
+    private Label processingOverlayLabel;
 
-    private final FontIcon checkIcon = new FontIcon("mdal-check");
+    @FXML
+    private TabPane tabPane;
+
+    @FXML
+    private MenuButton themeMenuButton;
+
+    private final BoxBlur boxBlurEffect = new BoxBlur();
 
     @FXML
     private void initialize() {
@@ -72,8 +88,12 @@ public class MainSceneController {
         numberOfCellsChosen.setText("-");
         processButton.setDisable(true);
 
-        setLanguages();
-        setThemes();
+        setLanguageMenuItems();
+        I18NService.getCurrentLanguageProperty().addListener(
+                (observableValue, language, t1) -> changeLanguage()
+        );
+
+        setThemeMenuItems();
     }
 
     @FXML
@@ -128,17 +148,17 @@ public class MainSceneController {
         var currentView = (SpreadsheetView) tabPane.getSelectionModel().getSelectedItem().getContent();
 
         if (currentView == null) {
-            AlertManager.showWarning("Process warning",
-                    "No data present!",
-                    "Selected sheet doesnt have any data to process")
+            AlertManager.showWarning(I18NService.get("alert.no.data.present.title"),
+                    I18NService.get("alert.no.data.present.header"),
+                    I18NService.get("alert.no.data.present.content"))
             ;
             return;
         }
         if (currentView.getSelectionModel().getSelectedCells().isEmpty()) {
             AlertManager.showWarning(
-                    "Process warning",
-                    "No selection made!",
-                    "Please select cells with phone numbers to process"
+                    I18NService.get("alert.no.selection.made.title"),
+                    I18NService.get("alert.no.selection.made.header"),
+                    I18NService.get("alert.no.selection.made.content")
             );
             return;
         }
@@ -185,20 +205,44 @@ public class MainSceneController {
         thread.start();
     }
 
-    private void setLanguages() {
+    private void setLanguageMenuItems() {
+        var languages = List.of(Language.values());
 
+        var menuItems = new ArrayList<MenuItem>();
+
+        for (var language : languages) {
+            var menuItem = new MenuItem();
+            menuItem.setUserData(language);
+            menuItem.setText(language.getLangName());
+            if (language.equals(Language.DEFAULT_LANGUAGE)) {
+                menuItem.setGraphic(new FontIcon("mdal-check"));
+            }
+
+            menuItem.setOnAction(actionEvent -> {
+                for (var i : languageMenuButton.getItems()) {
+                    i.setGraphic(null);
+                }
+                var item = (MenuItem)actionEvent.getSource();
+                item.setGraphic(new FontIcon("mdal-check"));
+                I18NService.getCurrentLanguageProperty().set((Language) item.getUserData());
+            });
+
+            menuItems.add(menuItem);
+        }
+
+        languageMenuButton.getItems().addAll(menuItems);
     }
 
-    private void setThemes() {
+    private void setThemeMenuItems() {
         var themes = List.of(Theme.LIGHT, Theme.DARK);
         var menuItems = new ArrayList<MenuItem>();
 
         for (var theme : themes) {
             var menuItem = new MenuItem();
             menuItem.setUserData(theme);
-            menuItem.setText(theme.getName());
+            menuItem.setText(I18NService.get(theme.getI18nProperty()));
             if (theme.equals(Theme.DEFAULT_THEME)) {
-                menuItem.setGraphic(checkIcon);
+                menuItem.setGraphic(new FontIcon("mdal-check"));
             }
 
             menuItem.setOnAction(actionEvent -> {
@@ -206,7 +250,7 @@ public class MainSceneController {
                     i.setGraphic(null);
                 }
                 var item = (MenuItem)actionEvent.getSource();
-                item.setGraphic(checkIcon);
+                item.setGraphic(new FontIcon("mdal-check"));
                 App.setTheme((Theme)item.getUserData());
             });
 
@@ -345,5 +389,22 @@ public class MainSceneController {
         } else {
             tabPane.setEffect(null);
         }
+    }
+
+    @Override
+    public void changeLanguage() {
+        excelFileLabel.setText(I18NService.get("excel.file.label"));
+        chooseFileButton.setText(I18NService.get("choose.file.button"));
+        numberOfCellsChosenLabel.setText(I18NService.get("number.cells.chosen.label"));
+        processButton.setText(I18NService.get("process.button"));
+
+        loadingOverlayLabel.setText(I18NService.get("loading.overlay.label"));
+        noDataOverlayLabel.setText(I18NService.get("no.data.overlay.label"));
+        processingOverlayLabel.setText(I18NService.get("processing.overlay.label"));
+
+        themeMenuButton.getItems().forEach(menuItem -> {
+            var theme = (Theme) menuItem.getUserData();
+            menuItem.setText(I18NService.get(theme.getI18nProperty()));
+        });
     }
 }

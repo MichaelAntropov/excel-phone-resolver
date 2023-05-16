@@ -29,7 +29,7 @@
                 <HBox alignment="CENTER" layoutX="20.0" layoutY="14.0" spacing="15.0" AnchorPane.leftAnchor="20.0"
                       AnchorPane.rightAnchor="20.0">
                     <children>
-                        <Label styleClass="title-4" text="Excel file:"/>
+                        <Label fx:id="excelFileLabel" styleClass="title-4" text="Excel file:"/>
                         <TextField fx:id="chosenFileTextField" disable="true" editable="false" HBox.hgrow="ALWAYS"/>
                         <Button fx:id="chooseFileButton" mnemonicParsing="false" onAction="#chooseExcelFile"
                                 text="Choose file..."/>
@@ -48,7 +48,8 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                             </rowConstraints>
                             <children>
-                                <Label styleClass="text-normal" text="Number of cells chosen:">
+                                <Label fx:id="numberOfCellsChosenLabel" styleClass="text-normal"
+                                       text="Number of cells chosen:">
                                     <GridPane.margin>
                                         <Insets/>
                                     </GridPane.margin>
@@ -133,7 +134,7 @@
                       visible="false">
                     <children>
                         <ProgressIndicator/>
-                        <Label text="Loading...">
+                        <Label fx:id="loadingOverlayLabel" text="Loading...">
                             <styleClass>
                                 <String fx:value="title-2"/>
                                 <String fx:value="text-normal"/>
@@ -144,7 +145,7 @@
                 <HBox fx:id="noDataOverlay" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0"
                       prefWidth="200.0" spacing="15.0" visible="false">
                     <children>
-                        <Label text="Please choose excel file to continue">
+                        <Label fx:id="noDataOverlayLabel" text="Please choose excel file to continue">
                             <styleClass>
                                 <String fx:value="title-3"/>
                                 <String fx:value="text-normal"/>
@@ -156,7 +157,7 @@
                       prefWidth="200.0" spacing="15.0" visible="false">
                     <children>
                         <ProgressIndicator/>
-                        <Label text="Processing...">
+                        <Label fx:id="processingOverlayLabel" text="Processing...">
                             <styleClass>
                                 <String fx:value="title-2"/>
                                 <String fx:value="text-normal"/>
