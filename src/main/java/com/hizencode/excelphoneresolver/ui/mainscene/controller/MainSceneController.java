@@ -11,6 +11,7 @@ import com.hizencode.excelphoneresolver.ui.mainscene.tasks.LoadExcelFileTask;
 import com.hizencode.excelphoneresolver.ui.mainscene.tasks.ProcessSelectedCellsTask;
 import com.hizencode.excelphoneresolver.ui.mainscene.tasks.SaveExcelFileTask;
 import com.hizencode.excelphoneresolver.ui.theme.Theme;
+import com.hizencode.excelphoneresolver.ui.theme.ThemeService;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -234,7 +235,7 @@ public class MainSceneController implements I18N {
     }
 
     private void setThemeMenuItems() {
-        var themes = List.of(Theme.LIGHT, Theme.DARK);
+        var themes = List.of(Theme.values());
         var menuItems = new ArrayList<MenuItem>();
 
         for (var theme : themes) {
@@ -251,7 +252,7 @@ public class MainSceneController implements I18N {
                 }
                 var item = (MenuItem)actionEvent.getSource();
                 item.setGraphic(new FontIcon("mdal-check"));
-                App.setTheme((Theme)item.getUserData());
+                ThemeService.getCurrentThemeProperty().set((Theme) item.getUserData());
             });
 
             menuItems.add(menuItem);

@@ -5,6 +5,7 @@ import com.hizencode.excelphoneresolver.i18n.Language;
 import com.hizencode.excelphoneresolver.ui.alertmanager.AlertManager;
 import com.hizencode.excelphoneresolver.data.ExcelData;
 import com.hizencode.excelphoneresolver.ui.theme.Theme;
+import com.hizencode.excelphoneresolver.ui.theme.ThemeService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,7 +24,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        setTheme(Theme.DEFAULT_THEME);
+        ThemeService.getCurrentThemeProperty().set(Theme.DEFAULT_THEME);
         I18NService.getCurrentLanguageProperty().set(Language.DEFAULT_LANGUAGE);
         scene = new Scene(loadFXML("main-scene"));
         stage.setScene(scene);
@@ -60,15 +61,6 @@ public class App extends Application {
 
     public static Window getWindow() {
         return scene.getWindow();
-    }
-
-    public static void setTheme(Theme theme) {
-        var cssUrl = App.class.getResource(theme.getCssPath());
-        if (cssUrl != null) {
-            Application.setUserAgentStylesheet(cssUrl.toExternalForm());
-        } else {
-            AlertManager.showErrorWithTrace(new NullPointerException("Can not find resource: " + theme.getCssPath()));
-        }
     }
 
     public static void main(String[] args) {
