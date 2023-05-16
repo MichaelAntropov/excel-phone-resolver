@@ -240,7 +240,7 @@ public class MainSceneController implements I18N {
         for (var theme : themes) {
             var menuItem = new MenuItem();
             menuItem.setUserData(theme);
-            menuItem.setText(theme.getName());
+            menuItem.setText(I18NService.get(theme.getI18nProperty()));
             if (theme.equals(Theme.DEFAULT_THEME)) {
                 menuItem.setGraphic(new FontIcon("mdal-check"));
             }
@@ -401,5 +401,10 @@ public class MainSceneController implements I18N {
         loadingOverlayLabel.setText(I18NService.get("loading.overlay.label"));
         noDataOverlayLabel.setText(I18NService.get("no.data.overlay.label"));
         processingOverlayLabel.setText(I18NService.get("processing.overlay.label"));
+
+        themeMenuButton.getItems().forEach(menuItem -> {
+            var theme = (Theme) menuItem.getUserData();
+            menuItem.setText(I18NService.get(theme.getI18nProperty()));
+        });
     }
 }
