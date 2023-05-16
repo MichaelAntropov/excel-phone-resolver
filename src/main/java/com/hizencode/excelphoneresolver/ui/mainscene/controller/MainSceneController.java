@@ -6,6 +6,7 @@ import com.hizencode.excelphoneresolver.i18n.I18N;
 import com.hizencode.excelphoneresolver.i18n.I18NService;
 import com.hizencode.excelphoneresolver.i18n.Language;
 import com.hizencode.excelphoneresolver.main.App;
+import com.hizencode.excelphoneresolver.settings.SettingsService;
 import com.hizencode.excelphoneresolver.ui.alertmanager.AlertManager;
 import com.hizencode.excelphoneresolver.ui.mainscene.tasks.LoadExcelFileTask;
 import com.hizencode.excelphoneresolver.ui.mainscene.tasks.ProcessSelectedCellsTask;
@@ -215,7 +216,7 @@ public class MainSceneController implements I18N {
             var menuItem = new MenuItem();
             menuItem.setUserData(language);
             menuItem.setText(language.getLangName());
-            if (language.equals(Language.DEFAULT_LANGUAGE)) {
+            if (language.equals(I18NService.getCurrentLanguageProperty().get())) {
                 menuItem.setGraphic(new FontIcon("mdal-check"));
             }
 
@@ -242,7 +243,7 @@ public class MainSceneController implements I18N {
             var menuItem = new MenuItem();
             menuItem.setUserData(theme);
             menuItem.setText(I18NService.get(theme.getI18nProperty()));
-            if (theme.equals(Theme.DEFAULT_THEME)) {
+            if (theme.equals(ThemeService.getCurrentThemeProperty().get())) {
                 menuItem.setGraphic(new FontIcon("mdal-check"));
             }
 
