@@ -15,7 +15,7 @@ public final class I18NService {
     static {
         currentLanguageProperty.addListener((observableValue, language, t1) ->
                 currentResourceBundle = ResourceBundle
-                        .getBundle("/i18n/language", currentLanguageProperty.get().getLocale())
+                        .getBundle("i18n.language", currentLanguageProperty.get().getLocale())
         );
     }
 

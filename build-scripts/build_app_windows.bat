@@ -81,7 +81,7 @@ call "%JAVA_HOME%\bin\jlink" ^
   --compress=2 ^
   --strip-debug ^
   --add-modules %detected_modules%%manual_modules% ^
-  --include-locales=en ^
+  --include-locales=en,uk^
   --output target/java-runtime
 
 
