@@ -29,6 +29,7 @@ public class App extends Application {
                     App.class.getResource("/fxml/main-scene.fxml"), I18NService.getCurrentResourceBundle()
             );
             scene = new Scene(fxmlLoader.load());
+            stage.setTitle("Excel Phone Resolver");
             stage.setScene(scene);
             stage.show();
         } catch (Exception exception) {
