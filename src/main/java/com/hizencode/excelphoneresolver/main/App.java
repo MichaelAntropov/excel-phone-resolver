@@ -7,10 +7,12 @@ import com.hizencode.excelphoneresolver.ui.alertmanager.AlertManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * JavaFX App
@@ -29,6 +31,7 @@ public class App extends Application {
                     App.class.getResource("/fxml/main-scene.fxml"), I18NService.getCurrentResourceBundle()
             );
             scene = new Scene(fxmlLoader.load());
+            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/icon512.png"))));
             stage.setTitle("Excel Phone Resolver");
             stage.setScene(scene);
             stage.show();

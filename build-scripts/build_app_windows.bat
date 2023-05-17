@@ -96,6 +96,7 @@ call "%JAVA_HOME%\bin\jpackage" ^
   --main-class com.hizencode.excelphoneresolver.main.Launcher ^
   --main-jar %MAIN_JAR% ^
   --runtime-image target/java-runtime ^
+  --icon src/main/resources/icons/icon.ico ^
   --app-version %APP_VERSION% ^
   --vendor "Hizencode" ^
   --copyright "Copyright © 2023 Hizencode" ^

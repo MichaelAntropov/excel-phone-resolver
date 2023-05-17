@@ -21,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.BoxBlur;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -32,6 +33,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainSceneController implements I18N {
 
@@ -199,6 +201,7 @@ public class MainSceneController implements I18N {
             var root = (Parent) fxmlLoader.load();
             var stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
+            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/icon512.png"))));
             stage.setTitle(I18NService.get("how.to.use.stage.title"));
             stage.setScene(new Scene(root));
             stage.show();
