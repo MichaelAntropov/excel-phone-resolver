@@ -6,7 +6,6 @@ import com.hizencode.excelphoneresolver.i18n.I18N;
 import com.hizencode.excelphoneresolver.i18n.I18NService;
 import com.hizencode.excelphoneresolver.i18n.Language;
 import com.hizencode.excelphoneresolver.main.App;
-import com.hizencode.excelphoneresolver.settings.SettingsService;
 import com.hizencode.excelphoneresolver.ui.alertmanager.AlertManager;
 import com.hizencode.excelphoneresolver.ui.mainscene.tasks.LoadExcelFileTask;
 import com.hizencode.excelphoneresolver.ui.mainscene.tasks.ProcessSelectedCellsTask;
