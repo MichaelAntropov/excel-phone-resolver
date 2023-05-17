@@ -5,71 +5,66 @@ import com.hizencode.excelphoneresolver.i18n.Language;
 import com.hizencode.excelphoneresolver.main.App;
 import com.hizencode.excelphoneresolver.ui.theme.Theme;
 import com.hizencode.excelphoneresolver.ui.theme.ThemeService;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.Properties;
 
 public final class SettingsService {
 
-    private static final ObjectProperty<Theme> theme = new SimpleObjectProperty<>();
-    private static final ObjectProperty<Language> language = new SimpleObjectProperty<>();
+    public static void loadSettings() throws IOException {
+        try {
+            Path settingsLocation = Paths.get(System.getProperty("user.home"), ".excel-phone-resolver", "settings", "settings.cfg");
+            if (!Files.exists(settingsLocation)) {
 
-    static  {
-        theme.bindBidirectional(ThemeService.getCurrentThemeProperty());
-        language.bindBidirectional(I18NService.getCurrentLanguageProperty());
-    }
+                if (!Files.exists(settingsLocation.getParent())) {
+                    Files.createDirectories(settingsLocation.getParent());
+                }
+                Files.copy(
+                        Objects.requireNonNull(SettingsService.class.getResourceAsStream("/settings/default-settings.cfg")),
+                        settingsLocation
+                );
+            }
 
-    public static void loadDefault() {
-        theme.set(Theme.DEFAULT_THEME);
-        language.set(Language.DEFAULT_LANGUAGE);
-    }
-
-    public static void loadSettings() throws URISyntaxException {
-        var appFolder = new File(App.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().toPath();
-        var settingsFile = appFolder.resolve("settings").resolve("settings.cfg").toFile();
-
-        try (var input = new FileInputStream(settingsFile)) {
-            Properties settingsProperties = new Properties();
-            settingsProperties.load(input);
-
-            var langProperty = settingsProperties.getProperty("language", Language.DEFAULT_LANGUAGE.name());
-            language.set(Language.valueOf(langProperty));
-
-            var themeProperty = settingsProperties.getProperty("theme", Theme.DEFAULT_THEME.name());
-            theme.set(Theme.valueOf(themeProperty));
+            var settingsProperties = new Properties();
+            try (var in = Files.newInputStream(settingsLocation)) {
+                settingsProperties.load(in);
+                readProperties(settingsProperties);
+            }
 
         } catch (IOException e) {
             loadDefault();
+            throw new IOException("Failed to load user settings!" , e);
         }
     }
 
-    public static void saveSettings() throws URISyntaxException, IOException {
-        var appFolder = new File(App.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().toPath();
-        var settingsFolder = appFolder.resolve("settings");
-        Files.createDirectories(settingsFolder);
-        Path settingsFilePath = settingsFolder.resolve("settings.cfg");
-        try {
-            Files.createFile(settingsFilePath);
-        } catch (FileAlreadyExistsException e) {
-            // Just continue
-        }
+    public static void saveSettings() throws IOException {
+        Path settingsLocation = Paths.get(System.getProperty("user.home"), ".excel-phone-resolver", "settings", "settings.cfg");
 
-        try (var out = new FileOutputStream(settingsFilePath.toFile())) {
+        try (var out = new FileOutputStream(settingsLocation.toFile())) {
             Properties settingsProperties = new Properties();
-
-            settingsProperties.setProperty("language", language.get().name());
-            settingsProperties.setProperty("theme", theme.get().name());
-
-            settingsProperties.store(out, null);
+            writeProperties(settingsProperties);
+            settingsProperties.store(out, App.CLIENT_VERSION);
         }
+    }
+
+    private static void loadDefault() throws IOException {
+        var defaultSettings = new Properties();
+        defaultSettings.load(SettingsService.class.getResourceAsStream("/settings/default-settings.cfg"));
+        readProperties(defaultSettings);
+    }
+
+    private static void readProperties(Properties properties) {
+        I18NService.getCurrentLanguageProperty().set(Language.valueOf(properties.getProperty("language")));
+        ThemeService.getCurrentThemeProperty().set(Theme.valueOf(properties.getProperty("theme")));
+    }
+
+    private static void writeProperties(Properties properties) {
+        properties.setProperty("language", I18NService.getCurrentLanguageProperty().get().name());
+        properties.setProperty("theme", ThemeService.getCurrentThemeProperty().get().name());
     }
 }

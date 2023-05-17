@@ -11,12 +11,12 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 /**
  * JavaFX App
  */
 public class App extends Application {
+    public static final String CLIENT_VERSION = "1.0.0";
 
     private static Scene scene;
 
@@ -48,7 +48,7 @@ public class App extends Application {
         //Save settings
         try {
             SettingsService.saveSettings();
-        } catch (URISyntaxException | IOException exception) {
+        } catch (IOException exception) {
             AlertManager.showErrorWithTrace(exception);
         }
     }
