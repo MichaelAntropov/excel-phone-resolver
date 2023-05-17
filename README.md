@@ -21,6 +21,22 @@ Easy to choose only cells that you need to format and what sheet to work on, jus
 
 ![selection-demo.png](/assets/selection-demo.png)
 
+#### Themes
+
+Program offers two themes to choose from Nord Light & Nord Dark. Based on [AtlantaFX](https://github.com/mkpaz/atlantafx).
+
+#### Languages
+
+Program currently supports two languages: English and Ukrainian.
+
+#### Settings
+
+Program saves state of chosen languages and themes by saving them in external confing file.
+
+#### Help
+
+Build in help is available with more detailed instructions on how to use program.
+
 ## Run in IDE
 
 ### IntellJ IDE
@@ -57,4 +73,16 @@ uses non-modularized 3rd party dependencies which result in automatic module err
 So, to build app `maven-dependency-plugin` and `exec-maven-plugin` are used with custom 
 [build script](/build-scripts).
 
-More details on build script can be found in [this repo](https://github.com/dlemmermann/JPackageScriptFX).
+More details on build script can be found in this repo: [JPackageScriptFX](https://github.com/dlemmermann/JPackageScriptFX).
+
+#### Test Build
+
+Very often application behave differently when packaged compared to running it from an IDE for example.
+
+To check how program will behave without using installer you can run this command in project directory:
+
+```
+$JAVA_HOME/bin/java -cp "target/installer/input/libs/*" com.hizencode.excelphoneresolver.main.Launcher
+```
+
+Note that `$JAVA_HOME` should point to Java 17 or higher.
