@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.hizencode</groupId>
     <artifactId>excel-phone-resolver</artifactId>
-    <version>1.0.0</version>
+    <version>1.2.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -14,7 +14,7 @@
         <maven.compiler.release>${java.version}</maven.compiler.release>
         <exec.maven.plugin.version>3.1.0</exec.maven.plugin.version>
         <client.name>ExcelPhoneResolver</client.name>
-        <client.version>1.0.0</client.version>
+        <client.version>1.2.1</client.version>
     </properties>
 
     <dependencies>
@@ -44,6 +44,20 @@
             <groupId>org.controlsfx</groupId>
             <artifactId>controlsfx</artifactId>
             <version>11.1.2</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.kordamp.ikonli/ikonli-javafx -->
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+            <version>12.3.1</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.kordamp.ikonli/ikonli-material2-pack -->
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-material2-pack</artifactId>
+            <version>12.3.1</version>
         </dependency>
 
     </dependencies>
@@ -137,7 +151,7 @@
                                     ${client.version}
                                 </APP_VERSION>
                                 <PROJECT_NAME>
-                                    ${artifactId}
+                                    ${project.artifactId}
                                 </PROJECT_NAME>
                                 <PROJECT_VERSION>
                                     ${project.version}

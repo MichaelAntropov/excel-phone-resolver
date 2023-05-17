@@ -81,7 +81,7 @@ call "%JAVA_HOME%\bin\jlink" ^
   --compress=2 ^
   --strip-debug ^
   --add-modules %detected_modules%%manual_modules% ^
-  --include-locales=en ^
+  --include-locales=en,uk^
   --output target/java-runtime
 
 
@@ -96,9 +96,10 @@ call "%JAVA_HOME%\bin\jpackage" ^
   --main-class com.hizencode.excelphoneresolver.main.Launcher ^
   --main-jar %MAIN_JAR% ^
   --runtime-image target/java-runtime ^
+  --icon src/main/resources/icons/icon.ico ^
   --app-version %APP_VERSION% ^
-  --vendor "Hizencode" ^
-  --copyright "Copyright © 2023 Hizencode" ^
+  --vendor "Hizencode(Michael Antropov)" ^
+  --copyright "Copyright © 2023 Hizencode(Michael Antropov)" ^
   --win-dir-chooser ^
   --win-shortcut ^
   --win-per-user-install ^

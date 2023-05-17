@@ -2,25 +2,43 @@ package com.hizencode.excelphoneresolver.ui.mainscene.controller;
 
 import com.hizencode.excelphoneresolver.data.ExcelData;
 import com.hizencode.excelphoneresolver.data.ExcelFileChooser;
+import com.hizencode.excelphoneresolver.i18n.I18N;
+import com.hizencode.excelphoneresolver.i18n.I18NService;
+import com.hizencode.excelphoneresolver.i18n.Language;
 import com.hizencode.excelphoneresolver.main.App;
 import com.hizencode.excelphoneresolver.ui.alertmanager.AlertManager;
 import com.hizencode.excelphoneresolver.ui.mainscene.tasks.LoadExcelFileTask;
 import com.hizencode.excelphoneresolver.ui.mainscene.tasks.ProcessSelectedCellsTask;
 import com.hizencode.excelphoneresolver.ui.mainscene.tasks.SaveExcelFileTask;
+import com.hizencode.excelphoneresolver.ui.theme.Theme;
+import com.hizencode.excelphoneresolver.ui.theme.ThemeService;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.BoxBlur;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.apache.poi.ss.formula.eval.ErrorEval;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.controlsfx.control.spreadsheet.*;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
-public class MainSceneController {
+public class MainSceneController implements I18N {
+
+    @FXML
+    private HBox backgroundOverlay;
 
     @FXML
     private Button chooseFileButton;
@@ -29,28 +47,43 @@ public class MainSceneController {
     private TextField chosenFileTextField;
 
     @FXML
-    private Label numberOfCellsChosen;
+    private Label excelFileLabel;
 
     @FXML
-    private Button helpButton;
-
-    @FXML
-    private Button processButton;
-
-    @FXML
-    private Button settingsButton;
-
-    @FXML
-    private TabPane tabPane;
+    private MenuButton languageMenuButton;
 
     @FXML
     private HBox loadingOverlay;
 
     @FXML
+    private Label loadingOverlayLabel;
+
+    @FXML
     private HBox noDataOverlay;
 
     @FXML
+    private Label noDataOverlayLabel;
+
+    @FXML
+    private Label numberOfCellsChosen;
+
+    @FXML
+    private Label numberOfCellsChosenLabel;
+
+    @FXML
+    private Button processButton;
+
+    @FXML
     private HBox processingOverlay;
+
+    @FXML
+    private Label processingOverlayLabel;
+
+    @FXML
+    private TabPane tabPane;
+
+    @FXML
+    private MenuButton themeMenuButton;
 
     private final BoxBlur boxBlurEffect = new BoxBlur();
 
@@ -59,10 +92,17 @@ public class MainSceneController {
         showNoDataOverlay(true);
         numberOfCellsChosen.setText("-");
         processButton.setDisable(true);
+
+        setLanguageMenuItems();
+        I18NService.getCurrentLanguageProperty().addListener(
+                (observableValue, language, t1) -> changeLanguage()
+        );
+
+        setThemeMenuItems();
     }
 
     @FXML
-    void chooseExcelFile() {
+    private void chooseExcelFile() {
         var chooserResultOptional = ExcelFileChooser.chooseExcelFile(App.getWindow());
 
         if (chooserResultOptional.isPresent()) {
@@ -109,21 +149,21 @@ public class MainSceneController {
     }
 
     @FXML
-    void startProcessing() {
+    private void startProcessing() {
         var currentView = (SpreadsheetView) tabPane.getSelectionModel().getSelectedItem().getContent();
 
         if (currentView == null) {
-            AlertManager.showWarning("Process warning",
-                    "No data present!",
-                    "Selected sheet doesnt have any data to process")
+            AlertManager.showWarning(I18NService.get("alert.no.data.present.title"),
+                    I18NService.get("alert.no.data.present.header"),
+                    I18NService.get("alert.no.data.present.content"))
             ;
             return;
         }
         if (currentView.getSelectionModel().getSelectedCells().isEmpty()) {
             AlertManager.showWarning(
-                    "Process warning",
-                    "No selection made!",
-                    "Please select cells with phone numbers to process"
+                    I18NService.get("alert.no.selection.made.title"),
+                    I18NService.get("alert.no.selection.made.header"),
+                    I18NService.get("alert.no.selection.made.content")
             );
             return;
         }
@@ -148,8 +188,48 @@ public class MainSceneController {
         thread.start();
     }
 
+    @FXML
+    private void openHelpWindow() {
+        try {
+            var fxmlLoader = new FXMLLoader(
+                    getClass().getResource("/fxml/help-scene/help-scene.fxml"),
+                    I18NService.getCurrentResourceBundle()
+            );
+            var root = (Parent) fxmlLoader.load();
+            var stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/icon512.png"))));
+            stage.setTitle(I18NService.get("how.to.use.stage.title"));
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            AlertManager.showErrorWithTrace(e);
+        }
+    }
+
     private void saveExcelFile() {
         var file = ExcelFileChooser.saveExcelFile(App.getWindow());
+
+        if (file == null) {
+            var result = AlertManager.showConfirmation(
+                    I18NService.get("confirmation.data.will.be.lost.title"),
+                    I18NService.get("confirmation.data.will.be.lost.header"),
+                    I18NService.get("confirmation.data.will.be.lost.content")
+            );
+
+            if (result.isPresent() && result.get().equals(ButtonType.OK)) {
+                clearMainScene();
+                try {
+                    ExcelData.clearData();
+                } catch (IOException ex) {
+                    AlertManager.showErrorWithTrace(ex);
+                }
+            } else {
+                saveExcelFile();
+            }
+            return;
+        }
+
         var saveExcelFile = new SaveExcelFileTask(ExcelData.getWorkbook(), file);
 
         saveExcelFile.setOnSucceeded(e -> {
@@ -168,6 +248,61 @@ public class MainSceneController {
         var thread = new Thread(saveExcelFile);
         thread.setDaemon(true);
         thread.start();
+    }
+
+    private void setLanguageMenuItems() {
+        var languages = List.of(Language.values());
+
+        var menuItems = new ArrayList<MenuItem>();
+
+        for (var language : languages) {
+            var menuItem = new MenuItem();
+            menuItem.setUserData(language);
+            menuItem.setText(language.getLangName());
+            if (language.equals(I18NService.getCurrentLanguageProperty().get())) {
+                menuItem.setGraphic(new FontIcon("mdal-check"));
+            }
+
+            menuItem.setOnAction(actionEvent -> {
+                for (var i : languageMenuButton.getItems()) {
+                    i.setGraphic(null);
+                }
+                var item = (MenuItem)actionEvent.getSource();
+                item.setGraphic(new FontIcon("mdal-check"));
+                I18NService.getCurrentLanguageProperty().set((Language) item.getUserData());
+            });
+
+            menuItems.add(menuItem);
+        }
+
+        languageMenuButton.getItems().addAll(menuItems);
+    }
+
+    private void setThemeMenuItems() {
+        var themes = List.of(Theme.values());
+        var menuItems = new ArrayList<MenuItem>();
+
+        for (var theme : themes) {
+            var menuItem = new MenuItem();
+            menuItem.setUserData(theme);
+            menuItem.setText(I18NService.get(theme.getI18nProperty()));
+            if (theme.equals(ThemeService.getCurrentThemeProperty().get())) {
+                menuItem.setGraphic(new FontIcon("mdal-check"));
+            }
+
+            menuItem.setOnAction(actionEvent -> {
+                for (var i : themeMenuButton.getItems()) {
+                    i.setGraphic(null);
+                }
+                var item = (MenuItem)actionEvent.getSource();
+                item.setGraphic(new FontIcon("mdal-check"));
+                ThemeService.getCurrentThemeProperty().set((Theme) item.getUserData());
+            });
+
+            menuItems.add(menuItem);
+        }
+
+        themeMenuButton.getItems().addAll(menuItems);
     }
 
     private void clearMainScene() {
@@ -251,7 +386,16 @@ public class MainSceneController {
         }
         grid.setRows(rows);
 
-        var spreadSheetView = new SpreadsheetView(grid);
+        var spreadSheetView = new SpreadsheetView(grid) {
+            @Override
+            public String getUserAgentStylesheet() {
+                var resource = MainSceneController.class.getResource("/css/nord-spreadsheet.css");
+                if (resource != null) {
+                    return resource.toExternalForm();
+                }
+                return super.getUserAgentStylesheet();
+            }
+        };
         spreadSheetView.setFixingRowsAllowed(false);
         spreadSheetView.setFixingColumnsAllowed(false);
         for (int i = 0; i < grid.getColumnCount(); i++) {
@@ -268,10 +412,12 @@ public class MainSceneController {
     }
 
     private void showNoDataOverlay(boolean state) {
+        backgroundOverlay.setVisible(state);
         noDataOverlay.setVisible(state);
     }
 
     private void showProcessingOverlay(boolean state) {
+        backgroundOverlay.setVisible(state);
         processingOverlay.setVisible(state);
         if (state) {
             tabPane.setEffect(boxBlurEffect);
@@ -281,11 +427,29 @@ public class MainSceneController {
     }
 
     private void showLoadingOverlay(boolean state) {
+        backgroundOverlay.setVisible(state);
         loadingOverlay.setVisible(state);
         if (state) {
             tabPane.setEffect(boxBlurEffect);
         } else {
             tabPane.setEffect(null);
         }
+    }
+
+    @Override
+    public void changeLanguage() {
+        excelFileLabel.setText(I18NService.get("excel.file.label"));
+        chooseFileButton.setText(I18NService.get("choose.file.button"));
+        numberOfCellsChosenLabel.setText(I18NService.get("number.cells.chosen.label"));
+        processButton.setText(I18NService.get("process.button"));
+
+        loadingOverlayLabel.setText(I18NService.get("loading.overlay.label"));
+        noDataOverlayLabel.setText(I18NService.get("no.data.overlay.label"));
+        processingOverlayLabel.setText(I18NService.get("processing.overlay.label"));
+
+        themeMenuButton.getItems().forEach(menuItem -> {
+            var theme = (Theme) menuItem.getUserData();
+            menuItem.setText(I18NService.get(theme.getI18nProperty()));
+        });
     }
 }
