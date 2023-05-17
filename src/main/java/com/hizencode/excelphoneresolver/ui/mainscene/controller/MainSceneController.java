@@ -187,6 +187,27 @@ public class MainSceneController implements I18N {
 
     private void saveExcelFile() {
         var file = ExcelFileChooser.saveExcelFile(App.getWindow());
+
+        if (file == null) {
+            var result = AlertManager.showConfirmation(
+                    I18NService.get("confirmation.data.will.be.lost.title"),
+                    I18NService.get("confirmation.data.will.be.lost.header"),
+                    I18NService.get("confirmation.data.will.be.lost.content")
+            );
+
+            if (result.isPresent() && result.get().equals(ButtonType.OK)) {
+                clearMainScene();
+                try {
+                    ExcelData.clearData();
+                } catch (IOException ex) {
+                    AlertManager.showErrorWithTrace(ex);
+                }
+            } else {
+                saveExcelFile();
+            }
+            return;
+        }
+
         var saveExcelFile = new SaveExcelFileTask(ExcelData.getWorkbook(), file);
 
         saveExcelFile.setOnSucceeded(e -> {
