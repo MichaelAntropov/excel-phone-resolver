@@ -50,9 +50,6 @@ public class MainSceneController implements I18N {
     private Label excelFileLabel;
 
     @FXML
-    private Button helpButton;
-
-    @FXML
     private MenuButton languageMenuButton;
 
     @FXML
