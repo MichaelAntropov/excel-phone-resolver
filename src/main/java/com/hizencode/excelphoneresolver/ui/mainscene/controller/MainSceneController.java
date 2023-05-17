@@ -16,9 +16,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.apache.poi.ss.formula.eval.ErrorEval;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.controlsfx.control.spreadsheet.*;
@@ -182,6 +187,24 @@ public class MainSceneController implements I18N {
         var thread = new Thread(processSelectedCells);
         thread.setDaemon(true);
         thread.start();
+    }
+
+    @FXML
+    private void openHelpWindow() {
+        try {
+            var fxmlLoader = new FXMLLoader(
+                    getClass().getResource("/fxml/help-scene/help-scene.fxml"),
+                    I18NService.getCurrentResourceBundle()
+            );
+            var root = (Parent) fxmlLoader.load();
+            var stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle(I18NService.get("how.to.use.stage.title"));
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            AlertManager.showErrorWithTrace(e);
+        }
     }
 
     private void saveExcelFile() {

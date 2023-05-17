@@ -97,7 +97,7 @@
                                 <String fx:value="no-arrow"/>
                             </styleClass>
                         </MenuButton>
-                        <Button fx:id="helpButton" mnemonicParsing="false">
+                        <Button fx:id="helpButton" mnemonicParsing="false" onAction="#openHelpWindow">
                             <graphic>
                                 <FontIcon iconLiteral="mdal-help" styleClass="help-icon"/>
                             </graphic>
