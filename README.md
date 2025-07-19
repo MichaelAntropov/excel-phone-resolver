@@ -15,7 +15,7 @@ Modifies chosen range of phone numbers(Ukrainian format) in Excel file(*.xlsx, *
 
 ## About
 
-Program helps to format Ukrainian phone numbers (+380-xx-xxx-xx-xx) within chosen selection.
+The program helps to format Ukrainian phone numbers (+380-xx-xxx-xx-xx) within the chosen selection.
 
 Easy to choose only cells that you need to format and what sheet to work on, just like in Microsoft Excel:
 
@@ -23,25 +23,26 @@ Easy to choose only cells that you need to format and what sheet to work on, jus
 
 #### Themes
 
-Program offers two themes to choose from Nord Light & Nord Dark. Based on [AtlantaFX](https://github.com/mkpaz/atlantafx).
+The program offers two themes to choose from Nord Light & Nord Dark.
+Based on [AtlantaFX](https://github.com/mkpaz/atlantafx).
 
 #### Languages
 
-Program currently supports two languages: English and Ukrainian.
+The program currently supports two languages: English and Ukrainian.
 
 #### Settings
 
-Program saves state of chosen languages and themes by saving them in external confing file.
+Program saves the state of chosen languages and themes by saving them in external config file.
 
 #### Help
 
-Build in help is available with more detailed instructions on how to use program.
+Build in help is available with more detailed instructions on how to use the program.
 
 ## Run in IDE
 
-### IntellJ IDE
+### IntelliJ IDE
 
-Open folder as Maven project in IntellJ.
+Open folder as Maven project in IntelliJJ.
 
 Run Maven goal `mvn javafx:run`, it will compile and launch app automatically.
 
@@ -77,12 +78,12 @@ More details on build script can be found in this repo: [JPackageScriptFX](https
 
 #### Test Build
 
-Very often application behave differently when packaged compared to running it from an IDE for example.
+Very often application behaves differently when packaged compared to running it from an IDE.
 
-To check how program will behave without using installer you can run this command in project directory:
+To check how the program will behave without using installer, you can run this command in project directory:
 
 ```
-$JAVA_HOME/bin/java -cp "target/installer/input/libs/*" com.hizencode.excelphoneresolver.main.Launcher
+{PATH_TO_JAVA_JDK}/bin/java -cp "target/installer/input/libs/*" com.hizencode.excelphoneresolver.main.Launcher
 ```
 
-Note that `$JAVA_HOME` should point to Java 17 or higher.
+Note that `{PATH_TO_JAVA_JDK}` should point to Java __21__ or higher.

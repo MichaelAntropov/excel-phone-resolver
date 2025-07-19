@@ -18,7 +18,7 @@ import java.util.Objects;
  * JavaFX App
  */
 public class App extends Application {
-    public static final String CLIENT_VERSION = "1.2.1";
+    public static final String CLIENT_VERSION = "1.2.2";
 
     private static Scene scene;
 
