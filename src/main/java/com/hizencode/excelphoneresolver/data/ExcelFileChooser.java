@@ -1,5 +1,6 @@
 package com.hizencode.excelphoneresolver.data;
 
+import com.hizencode.excelphoneresolver.ui.alertmanager.AlertManager;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
@@ -33,7 +34,7 @@ public final class ExcelFileChooser {
         try {
             Files.copy(sourcePath, newPath);
         } catch (IOException e) {
-            e.printStackTrace();
+            AlertManager.showErrorWithTrace(e);
         }
 
         return Optional.of(new ExcelFileChooserResult(sourceFile, newPath.toFile()));
