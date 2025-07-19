@@ -20,50 +20,42 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0"
-            prefWidth="900.0" stylesheets="@../css/icons.css" xmlns="http://javafx.com/javafx/19"
+            prefWidth="900.0" stylesheets="@../css/icons.css" xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.hizencode.excelphoneresolver.ui.mainscene.controller.MainSceneController">
     <top>
         <AnchorPane prefWidth="800.0" BorderPane.alignment="CENTER">
-            <children>
-                <HBox alignment="CENTER" layoutX="20.0" layoutY="14.0" spacing="15.0" AnchorPane.leftAnchor="20.0"
-                      AnchorPane.rightAnchor="20.0">
-                    <children>
-                        <Label fx:id="excelFileLabel" styleClass="title-4" text="%excel.file.label"/>
-                        <TextField fx:id="chosenFileTextField" disable="true" editable="false" HBox.hgrow="ALWAYS"/>
-                        <Button fx:id="chooseFileButton" mnemonicParsing="false" onAction="#chooseExcelFile"
-                                text="%choose.file.button"/>
-                    </children>
-                </HBox>
-                <Separator layoutY="50.0" prefWidth="200.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0"/>
-                <HBox layoutX="157.0" layoutY="52.0" prefHeight="50.0" prefWidth="200.0" spacing="15.0"
-                      AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
-                    <children>
-                        <GridPane hgap="5.0">
-                            <columnConstraints>
-                                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="75.0"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                            </rowConstraints>
-                            <children>
-                                <Label fx:id="numberOfCellsChosenLabel" styleClass="text-normal"
-                                       text="%number.cells.chosen.label">
-                                    <GridPane.margin>
-                                        <Insets/>
-                                    </GridPane.margin>
-                                </Label>
-                                <Label fx:id="numberOfCellsChosen" styleClass="text-normal" text="100"
-                                       GridPane.columnIndex="1"/>
-                            </children>
-                        </GridPane>
-                    </children>
-                </HBox>
-            </children>
             <opaqueInsets>
                 <Insets bottom="15.0"/>
             </opaqueInsets>
+            <HBox alignment="CENTER" layoutX="20.0" layoutY="14.0" spacing="15.0" AnchorPane.leftAnchor="20.0"
+                  AnchorPane.rightAnchor="20.0">
+                <Label fx:id="excelFileLabel" styleClass="title-4" text="%excel.file.label"/>
+                <TextField fx:id="chosenFileTextField" disable="true" editable="false" HBox.hgrow="ALWAYS"/>
+                <Button fx:id="chooseFileButton" mnemonicParsing="false" onAction="#chooseExcelFile"
+                        text="%choose.file.button"/>
+            </HBox>
+            <Separator layoutY="50.0" prefWidth="200.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0"/>
+            <HBox layoutX="157.0" layoutY="52.0" prefHeight="50.0" prefWidth="200.0" spacing="15.0"
+                  AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+                <GridPane hgap="5.0">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="75.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    </rowConstraints>
+                    <Label fx:id="numberOfCellsChosenLabel" styleClass="text-normal"
+                           text="%number.cells.chosen.label">
+                        <GridPane.margin>
+                            <Insets/>
+                        </GridPane.margin>
+                    </Label>
+                    <Label fx:id="numberOfCellsChosen" styleClass="text-normal" text="100"
+                           GridPane.columnIndex="1"/>
+                </GridPane>
+            </HBox>
         </AnchorPane>
     </top>
     <left>
@@ -74,98 +66,84 @@
     </right>
     <bottom>
         <AnchorPane BorderPane.alignment="CENTER">
-            <children>
-                <HBox alignment="CENTER_LEFT" layoutY="13.0" AnchorPane.leftAnchor="0.0">
-                    <children>
-                        <MenuButton fx:id="languageMenuButton" mnemonicParsing="false">
-                            <graphic>
-                                <FontIcon iconLiteral="mdal-language" styleClass="language-icon"/>
-                            </graphic>
-                            <styleClass>
-                                <String fx:value="button-icon"/>
-                                <String fx:value="flat"/>
-                                <String fx:value="no-arrow"/>
-                            </styleClass>
-                        </MenuButton>
-                        <MenuButton fx:id="themeMenuButton" mnemonicParsing="false">
-                            <graphic>
-                                <FontIcon iconLiteral="mdoal-format_paint" styleClass="theme-icon"/>
-                            </graphic>
-                            <styleClass>
-                                <String fx:value="button-icon"/>
-                                <String fx:value="flat"/>
-                                <String fx:value="no-arrow"/>
-                            </styleClass>
-                        </MenuButton>
-                        <Button mnemonicParsing="false" onAction="#openHelpWindow">
-                            <graphic>
-                                <FontIcon iconLiteral="mdal-help" styleClass="help-icon"/>
-                            </graphic>
-                            <styleClass>
-                                <String fx:value="button-icon"/>
-                                <String fx:value="flat"/>
-                            </styleClass>
-                        </Button>
-                    </children>
-                    <padding>
-                        <Insets bottom="10.0" left="20.0"/>
-                    </padding>
-                </HBox>
-                <HBox alignment="CENTER_LEFT" layoutX="748.0" layoutY="13.0" AnchorPane.rightAnchor="0.0">
-                    <children>
-                        <Button fx:id="processButton" mnemonicParsing="false" onAction="#startProcessing"
-                                styleClass="accent" text="%process.button"/>
-                    </children>
-                    <padding>
-                        <Insets bottom="10.0" right="20.0"/>
-                    </padding>
-                </HBox>
-            </children>
+            <HBox alignment="CENTER_LEFT" layoutY="13.0" AnchorPane.leftAnchor="0.0">
+                <padding>
+                    <Insets bottom="10.0" left="20.0"/>
+                </padding>
+                <MenuButton fx:id="languageMenuButton" mnemonicParsing="false">
+                    <graphic>
+                        <FontIcon iconLiteral="mdal-language" styleClass="language-icon"/>
+                    </graphic>
+                    <styleClass>
+                        <String fx:value="button-icon"/>
+                        <String fx:value="flat"/>
+                        <String fx:value="no-arrow"/>
+                    </styleClass>
+                </MenuButton>
+                <MenuButton fx:id="themeMenuButton" mnemonicParsing="false">
+                    <graphic>
+                        <FontIcon iconLiteral="mdoal-format_paint" styleClass="theme-icon"/>
+                    </graphic>
+                    <styleClass>
+                        <String fx:value="button-icon"/>
+                        <String fx:value="flat"/>
+                        <String fx:value="no-arrow"/>
+                    </styleClass>
+                </MenuButton>
+                <Button mnemonicParsing="false" onAction="#openHelpWindow">
+                    <graphic>
+                        <FontIcon iconLiteral="mdal-help" styleClass="help-icon"/>
+                    </graphic>
+                    <styleClass>
+                        <String fx:value="button-icon"/>
+                        <String fx:value="flat"/>
+                    </styleClass>
+                </Button>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="748.0" layoutY="13.0" AnchorPane.rightAnchor="0.0">
+                <padding>
+                    <Insets bottom="10.0" right="20.0"/>
+                </padding>
+                <Button fx:id="processButton" mnemonicParsing="false" onAction="#startProcessing"
+                        styleClass="accent" text="%process.button"/>
+            </HBox>
         </AnchorPane>
     </bottom>
     <center>
         <StackPane>
-            <children>
-                <TabPane fx:id="tabPane" side="BOTTOM" tabClosingPolicy="UNAVAILABLE"/>
-                <HBox fx:id="backgroundOverlay" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0"
-                      prefWidth="200.0" spacing="15.0" style="-fx-background-color: -color-bg-subtle; -fx-opacity: 0.7;"
-                      visible="false"/>
-                <HBox fx:id="loadingOverlay" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0"
-                      visible="false">
-                    <children>
-                        <ProgressIndicator/>
-                        <Label fx:id="loadingOverlayLabel" text="%loading.overlay.label">
-                            <styleClass>
-                                <String fx:value="title-2"/>
-                                <String fx:value="text-normal"/>
-                            </styleClass>
-                        </Label>
-                    </children>
-                </HBox>
-                <HBox fx:id="noDataOverlay" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0"
-                      prefWidth="200.0" spacing="15.0" visible="false">
-                    <children>
-                        <Label fx:id="noDataOverlayLabel" text="%no.data.overlay.label">
-                            <styleClass>
-                                <String fx:value="title-3"/>
-                                <String fx:value="text-normal"/>
-                            </styleClass>
-                        </Label>
-                    </children>
-                </HBox>
-                <HBox fx:id="processingOverlay" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0"
-                      prefWidth="200.0" spacing="15.0" visible="false">
-                    <children>
-                        <ProgressIndicator/>
-                        <Label fx:id="processingOverlayLabel" text="%processing.overlay.label">
-                            <styleClass>
-                                <String fx:value="title-2"/>
-                                <String fx:value="text-normal"/>
-                            </styleClass>
-                        </Label>
-                    </children>
-                </HBox>
-            </children>
+            <TabPane fx:id="tabPane" side="BOTTOM" tabClosingPolicy="UNAVAILABLE"/>
+            <HBox fx:id="backgroundOverlay" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0"
+                  prefWidth="200.0" spacing="15.0" style="-fx-background-color: -color-bg-subtle; -fx-opacity: 0.7;"
+                  visible="false"/>
+            <HBox fx:id="loadingOverlay" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0"
+                  visible="false">
+                <ProgressIndicator/>
+                <Label fx:id="loadingOverlayLabel" text="%loading.overlay.label">
+                    <styleClass>
+                        <String fx:value="title-2"/>
+                        <String fx:value="text-normal"/>
+                    </styleClass>
+                </Label>
+            </HBox>
+            <HBox fx:id="noDataOverlay" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0"
+                  prefWidth="200.0" spacing="15.0" visible="false">
+                <Label fx:id="noDataOverlayLabel" text="%no.data.overlay.label">
+                    <styleClass>
+                        <String fx:value="title-3"/>
+                        <String fx:value="text-normal"/>
+                    </styleClass>
+                </Label>
+            </HBox>
+            <HBox fx:id="processingOverlay" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0"
+                  prefWidth="200.0" spacing="15.0" visible="false">
+                <ProgressIndicator/>
+                <Label fx:id="processingOverlayLabel" text="%processing.overlay.label">
+                    <styleClass>
+                        <String fx:value="title-2"/>
+                        <String fx:value="text-normal"/>
+                    </styleClass>
+                </Label>
+            </HBox>
         </StackPane>
     </center>
 </BorderPane>

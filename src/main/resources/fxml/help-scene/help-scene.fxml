@@ -12,108 +12,87 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<BorderPane prefHeight="700.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/19"
-            xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="700.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/21">
     <center>
         <ScrollPane fitToWidth="true" BorderPane.alignment="CENTER">
-            <content>
-                <AnchorPane minWidth="700.0">
-                    <children>
-                        <VBox layoutX="51.0" layoutY="29.0" spacing="15.0" AnchorPane.bottomAnchor="100.0"
-                              AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
-                            <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%how.to.use.title">
-                                    <font>
-                                        <Font size="24.0"/>
-                                    </font>
-                                </Text>
-                                <Separator>
-                                    <opaqueInsets>
-                                        <Insets/>
-                                    </opaqueInsets>
-                                </Separator>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%about.title">
-                                    <font>
-                                        <Font size="18.0"/>
-                                    </font>
-                                </Text>
-                                <TextFlow>
-                                    <children>
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%about.p1">
-                                            <font>
-                                                <Font size="13.0"/>
-                                            </font>
-                                        </Text>
-                                    </children>
-                                </TextFlow>
-                                <TextFlow layoutX="10.0" layoutY="72.0">
-                                    <children>
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%about.p2">
-                                            <font>
-                                                <Font size="13.0"/>
-                                            </font>
-                                        </Text>
-                                    </children>
-                                </TextFlow>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%step1.title">
-                                    <font>
-                                        <Font size="18.0"/>
-                                    </font>
-                                </Text>
-                                <ImageView fitWidth="700.0" pickOnBounds="true" preserveRatio="true"
-                                           VBox.vgrow="ALWAYS">
-                                    <image>
-                                        <Image url="@images/step-1.png"/>
-                                    </image>
-                                </ImageView>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%step2.title">
-                                    <font>
-                                        <Font size="18.0"/>
-                                    </font>
-                                </Text>
-                                <TextFlow>
-                                    <children>
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%step2.p1">
-                                            <font>
-                                                <Font size="13.0"/>
-                                            </font>
-                                        </Text>
-                                    </children>
-                                </TextFlow>
-                                <ImageView fitWidth="700.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@images/step-2.png"/>
-                                    </image>
-                                </ImageView>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%step3.title">
-                                    <font>
-                                        <Font size="18.0"/>
-                                    </font>
-                                </Text>
-                                <ImageView fitWidth="700.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@images/step-3.png"/>
-                                    </image>
-                                </ImageView>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%step4.title">
-                                    <font>
-                                        <Font size="18.0"/>
-                                    </font>
-                                </Text>
-                                <TextFlow>
-                                    <children>
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%step4.p1">
-                                            <font>
-                                                <Font size="13.0"/>
-                                            </font>
-                                        </Text>
-                                    </children>
-                                </TextFlow>
-                            </children>
-                        </VBox>
-                    </children>
-                </AnchorPane>
-            </content>
+            <AnchorPane minWidth="700.0">
+                <VBox layoutX="51.0" layoutY="29.0" spacing="15.0" AnchorPane.bottomAnchor="100.0"
+                      AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%how.to.use.title">
+                        <font>
+                            <Font size="24.0"/>
+                        </font>
+                    </Text>
+                    <Separator>
+                        <opaqueInsets>
+                            <Insets/>
+                        </opaqueInsets>
+                    </Separator>
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%about.title">
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </Text>
+                    <TextFlow>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%about.p1">
+                            <font>
+                                <Font size="13.0"/>
+                            </font>
+                        </Text>
+                    </TextFlow>
+                    <TextFlow layoutX="10.0" layoutY="72.0">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%about.p2">
+                            <font>
+                                <Font size="13.0"/>
+                            </font>
+                        </Text>
+                    </TextFlow>
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%step1.title">
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </Text>
+                    <ImageView fitWidth="700.0" pickOnBounds="true" preserveRatio="true"
+                               VBox.vgrow="ALWAYS">
+                        <Image url="@images/step-1.png"/>
+                    </ImageView>
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%step2.title">
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </Text>
+                    <TextFlow>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%step2.p1">
+                            <font>
+                                <Font size="13.0"/>
+                            </font>
+                        </Text>
+                    </TextFlow>
+                    <ImageView fitWidth="700.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@images/step-2.png"/>
+                    </ImageView>
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%step3.title">
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </Text>
+                    <ImageView fitWidth="700.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@images/step-3.png"/>
+                    </ImageView>
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%step4.title">
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </Text>
+                    <TextFlow>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%step4.p1">
+                            <font>
+                                <Font size="13.0"/>
+                            </font>
+                        </Text>
+                    </TextFlow>
+                </VBox>
+            </AnchorPane>
         </ScrollPane>
     </center>
 </BorderPane>
