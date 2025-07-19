@@ -343,6 +343,7 @@ public class MainSceneController implements I18N {
         tabPane.getSelectionModel().selectFirst();
     }
 
+
     private void renderSpreadSheetView(Tab tab) {
         ExcelData.setSheet(ExcelData.getWorkbook().getSheet(tab.getText()));
 
@@ -354,14 +355,14 @@ public class MainSceneController implements I18N {
                 lastColumnNum = row.getLastCellNum();
             }
         }
-        //Check if there is data in sheet
+        //Check if there is data in the sheet
         if (lastColumnNum < 0 || lastRowNum < 0) {
             return;
         }
         Grid grid = new GridBase(lastRowNum, lastColumnNum);
         var cellEvaluator = ExcelData.getWorkbook().getCreationHelper().createFormulaEvaluator();
 
-        ObservableList<ObservableList<SpreadsheetCell>> rows = FXCollections.observableArrayList();
+        final ObservableList<ObservableList<SpreadsheetCell>> rows = FXCollections.observableArrayList();
         for (int row = 0; row < grid.getRowCount(); ++row) {
             final ObservableList<SpreadsheetCell> cells = FXCollections.observableArrayList();
             for (int column = 0; column < grid.getColumnCount(); ++column) {
@@ -385,7 +386,11 @@ public class MainSceneController implements I18N {
             rows.add(cells);
         }
         grid.setRows(rows);
+        tab.setContent(getSpreadSheetView(grid));
+    }
 
+    @SuppressWarnings("rawtypes")// Until new versions of controlsfx will use generics
+    private SpreadsheetView getSpreadSheetView(Grid grid) {
         var spreadSheetView = new SpreadsheetView(grid) {
             @Override
             public String getUserAgentStylesheet() {
@@ -402,13 +407,12 @@ public class MainSceneController implements I18N {
             spreadSheetView.getColumns().get(i).setPrefWidth(120);
         }
         spreadSheetView.getSelectionModel().getSelectedCells().addListener(
-                (ListChangeListener<? super TablePosition>) change ->
+                (ListChangeListener<TablePosition>) change ->
                         numberOfCellsChosen.setText(
                                 String.valueOf(spreadSheetView.getSelectionModel().getSelectedCells().size()
-                                )
                         )
-        );
-        tab.setContent(spreadSheetView);
+                ));
+        return spreadSheetView;
     }
 
     private void showNoDataOverlay(boolean state) {

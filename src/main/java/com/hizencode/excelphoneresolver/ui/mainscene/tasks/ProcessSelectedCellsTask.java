@@ -12,8 +12,10 @@ public class ProcessSelectedCellsTask extends Task<Workbook> {
 
     private final Sheet selectedSheet;
 
+    @SuppressWarnings("rawtypes") // Until new versions of controlsfx will use generics
     private final List<TablePosition> selectedCells;
 
+    @SuppressWarnings("rawtypes") // Until new versions of controlsfx will use generics
     public ProcessSelectedCellsTask(Sheet selectedSheet, List<TablePosition> selectedCells) {
         this.selectedSheet = selectedSheet;
         this.selectedCells = selectedCells;
