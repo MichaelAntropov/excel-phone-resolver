@@ -5,6 +5,7 @@ import javafx.concurrent.Task;
 import javafx.scene.control.TablePosition;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.NumberToTextConverter;
 
 import java.util.List;
 
@@ -27,11 +28,20 @@ public class ProcessSelectedCellsTask extends Task<Workbook> {
             throw new NullPointerException("The sheet is missing!");
         }
 
+        var cellEvaluator = selectedSheet.getWorkbook().getCreationHelper().createFormulaEvaluator();
+
         //Iterate over the selected cells(phones) and apply phone resolver
         for (var selectedCell : selectedCells) {
             var cell = selectedSheet.getRow(selectedCell.getRow()).getCell(selectedCell.getColumn());
-            if (cell != null) {
-                var formattedResult = PhoneResolver.resolve(cell.getStringCellValue());
+            if (cell != null && cellEvaluator.evaluate(cell) != null) {
+                var cellValue = cellEvaluator.evaluate(cell);
+                var phoneString = switch (cellValue.getCellType()) {
+                    case NUMERIC -> NumberToTextConverter.toText(cellValue.getNumberValue());
+                    case STRING -> cellValue.getStringValue();
+                    default -> "";
+                };
+                var formattedResult = PhoneResolver.resolve(phoneString);
+                cell.setCellFormula(null);
                 cell.setCellValue(formattedResult.mainResult());
             }
         }
