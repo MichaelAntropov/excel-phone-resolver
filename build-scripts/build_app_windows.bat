@@ -78,10 +78,10 @@ call "%JAVA_HOME%\bin\jlink" ^
   --strip-native-commands ^
   --no-header-files ^
   --no-man-pages ^
-  --compress=2 ^
+  --compress=zip-0 ^
   --strip-debug ^
   --add-modules %detected_modules%%manual_modules% ^
-  --include-locales=en,uk^
+  --include-locales=en,ua^
   --output target/java-runtime
 
 
@@ -99,7 +99,7 @@ call "%JAVA_HOME%\bin\jpackage" ^
   --icon src/main/resources/icons/icon.ico ^
   --app-version %APP_VERSION% ^
   --vendor "Hizencode(Michael Antropov)" ^
-  --copyright "Copyright © 2023 Hizencode(Michael Antropov)" ^
+  --copyright "Copyright © 2025 Hizencode(Michael Antropov)" ^
   --win-dir-chooser ^
   --win-shortcut ^
   --win-per-user-install ^
