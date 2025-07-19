@@ -59,7 +59,8 @@ public final class SettingsService {
     }
 
     private static void readProperties(Properties properties) {
-        I18NService.getCurrentLanguageProperty().set(Language.valueOf(properties.getProperty("language")));
+        var languageProperty = Objects.requireNonNullElse(properties.getProperty("language"), Language.DEFAULT_LANGUAGE.name());
+        I18NService.getCurrentLanguageProperty().set(Language.valueOf(languageProperty));
         ThemeService.getCurrentThemeProperty().set(Theme.valueOf(properties.getProperty("theme")));
     }
 
