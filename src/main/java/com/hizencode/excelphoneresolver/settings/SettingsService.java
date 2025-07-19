@@ -61,11 +61,13 @@ public final class SettingsService {
     private static void readProperties(Properties properties) {
         var languageProperty = Objects.requireNonNullElse(properties.getProperty("language"), Language.DEFAULT_LANGUAGE.name());
         I18NService.getCurrentLanguageProperty().set(Language.valueOf(languageProperty));
-        ThemeService.getCurrentThemeProperty().set(Theme.valueOf(properties.getProperty("theme")));
+
+        var themeProperty = Objects.requireNonNullElse(properties.getProperty("theme"), Theme.DEFAULT_THEME.getName());
+        ThemeService.getCurrentThemeProperty().set(Theme.fromString(themeProperty));
     }
 
     private static void writeProperties(Properties properties) {
         properties.setProperty("language", I18NService.getCurrentLanguageProperty().get().name());
-        properties.setProperty("theme", ThemeService.getCurrentThemeProperty().get().name());
+        properties.setProperty("theme", ThemeService.getCurrentThemeProperty().get().getName());
     }
 }

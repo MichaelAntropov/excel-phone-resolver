@@ -1,10 +1,12 @@
 package com.hizencode.excelphoneresolver.ui.theme;
 
-public enum Theme {
-    LIGHT("NORD_LIGHT", "theme.nord.light", "/css/nord-light.css"),
-    DARK("NORD_DARK", "theme.nord.dark", "/css/nord-dark.css");
+import java.util.Objects;
 
-    public static final Theme DEFAULT_THEME = Theme.LIGHT;
+public enum Theme {
+    NORD_LIGHT("NORD_LIGHT", "theme.nord.light", "/css/nord-light.css"),
+    NORD_DARK("NORD_DARK", "theme.nord.dark", "/css/nord-dark.css");
+
+    public static final Theme DEFAULT_THEME = Theme.NORD_LIGHT;
 
     private final String name;
 
@@ -28,5 +30,14 @@ public enum Theme {
 
     public String getCssPath() {
         return cssPath;
+    }
+
+    public static Theme fromString(String themeName) {
+        for (var theme : values()) {
+            if (Objects.equals(theme.getName(), themeName)) {
+                return theme;
+            }
+        }
+        return DEFAULT_THEME;
     }
 }
