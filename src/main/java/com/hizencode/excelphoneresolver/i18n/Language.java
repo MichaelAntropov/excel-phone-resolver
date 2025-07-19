@@ -5,7 +5,7 @@ import java.util.Locale;
 public enum Language {
 
     ENGLISH("English", new Locale("en")),
-    UKRAINIAN("Українська", new Locale("uk"));
+    UKRAINIAN("Українська", new Locale("ua"));
 
     public static final Language DEFAULT_LANGUAGE = Language.ENGLISH;
 
