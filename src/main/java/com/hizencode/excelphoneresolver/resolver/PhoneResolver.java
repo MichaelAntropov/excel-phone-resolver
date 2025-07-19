@@ -14,26 +14,26 @@ public class PhoneResolver {
 
     public static PhoneResult resolve(String phoneString) {
 
-        //Standard entry check
-        if(phoneString == null || phoneString.isBlank() || phoneString.isEmpty()) {
+        // Standard entry check
+        if(phoneString == null || phoneString.isBlank()) {
             return new PhoneResult("", "");
         }
 
-        //Deleting all chars except digits and ";"
+        // Deleting all chars except digits and ";"
         phoneString =
                 phoneString.replaceAll(ALL_CHARS_EXCEPT_SEMICOLON_REGEX, "");
 
-        //Splitting by ";"
+        // Splitting by ";"
         String[] phoneStringArr = phoneString.split(SPLITERATOR);
 
-        //Return if an array is nothing
-        // eg. ;gre;ert;ret; -> Empty array, after removing non digit chars
+        // Return if an array is nothing
+        // e.g. string ';gre;ert;ret;' will result in empty array after removing non-digit chars
         if(phoneStringArr.length == 0) {
             return new PhoneResult("", "");
         }
 
-        //Filtering those which are >= 9 getting last 9 chars and check an operator
-        //if set is empty -> return
+        // Filtering those which are >= 9 getting last 9 chars and check an operator
+        // if set is empty -> return
         Set<String> resultSet = new HashSet<>();
 
         for(String string: phoneStringArr) {
